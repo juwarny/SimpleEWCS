@@ -17,12 +17,12 @@
 		<form action="${'/login'}"></form>
 
 		<div class="form-group">
-			<label>BNO</label> 
+			<label>BNO</label>
 			<input class="form-control" name="bno" value="${vo.bno}" readonly="readonly" />
 		</div>
 
 		<div class="form-group">
-			<label>Title</label> 
+			<label>Title</label>
 			<input class="form-control" name="title" value="${vo.title}" readonly="readonly" />
 			<p class="help-block">Title text here.</p>
 		</div>
@@ -34,17 +34,17 @@
 
 		<div class="form-group">
 			<label>Writer</label>
-			<!-- 수정이 필요할수도있음 --> 
+			<!-- 수정이 필요할수도있음 -->
 			<input class="form-control" name="writer" value="${vo.member.uid}" readonly="readonly" />
 		</div>
 
 		<div class="form-group">
 			<label>RegDate</label>
-			<fmt:formatDate value="${vo.regdate}" var="formattedDate" type="date" pattern="yyyy-MM-dd"/> 
+			<fmt:formatDate value="${vo.regdate}" var="formattedDate" type="date" pattern="yyyy-MM-dd"/>
 			<input class="form-control" name="regDate" value="${formattedDate}" readonly="readonly" />
 		</div>
-		<!-- 수정이 필요할수도있음 --> 
-		<div class="pull-right">			
+		<!-- 수정이 필요할수도있음 -->
+		<div class="pull-right">
 			<sec:authentication var="principal" property="principal"/>
 			<c:choose>
 				<c:when test="${principal eq 'anonymousUser'}">
@@ -54,28 +54,32 @@
 					<c:set var="uid" value="${principal.member.uid}"/>
 				</c:otherwise>
 			</c:choose>
-			
-			<c:url value="../modify" var="url">
+
+			<c:url value="../bmodify" var="url">
 			  <c:param name="page" value="${pageVO.page}"/>
 			  <c:param name="size" value="${pageVO.size}"/>
 			  <c:param name="type" value="${pageVO.type}"/>
 			  <c:param name="keyword" value="${pageVO.keyword}"/>
 			  <c:param name="bno" value="${pageVO.bno}"/>
-			  <c:param name="bno" value="${pageVO.catno}"/>			  
+			  <c:param name="bno" value="${pageVO.catno}"/>
 			</c:url>
-			<c:url value="../list" var="url2">
+			<c:url value="../blist" var="url2">
 			  <c:param name="page" value="${pageVO.page}"/>
 			  <c:param name="size" value="${pageVO.size}"/>
 			  <c:param name="type" value="${pageVO.type}"/>
 			  <c:param name="keyword" value="${pageVO.keyword}"/>
 			  <c:param name="bno" value="${pageVO.bno}"/>
-			  <c:param name="bno" value="${pageVO.catno}"/>			  
+			  <c:param name="bno" value="${pageVO.catno}"/>
 			</c:url>
-			
-			<a href="${url}" class="btn btn-default" id='goModBtn'>Modify/Delete</a> 
+
+			<a href="${url}" class="btn btn-default" id='goModBtn'>Modify/Delete</a>
 			<a href="${url2}" class="btn btn-primary">Go List</a>
 		</div>
 
+	</div>
+	<div class="container">
+		<button class="btn" id="like"></button>
+		<button class="btn" id="hate"></button>
 	</div>
 
 	<div class='container'>
@@ -109,9 +113,9 @@
 					<h4 class="modal-title">Modal Header</h4>
 				</div>
 				<div class="modal-body">
-					<label>Reply Text</label> 
-					<input type="text" class="form-control" name='replyText'> 
-					<label>Replyer</label> 
+					<label>Reply Text</label>
+					<input type="text" class="form-control" name='replyText'>
+					<label>Replyer</label>
 					<input type="text" class="form-control" name='replyer' readonly="readonly">
 				</div>
 				<div class="modal-footer">
@@ -127,28 +131,141 @@
 
 	<!-- 수정이 필요-->
 	<script type="text/javascript" src="/static/js/reply.js"></script>
+	<script type="text/javascript" src="/static/js/likehate.js"></script>
 	<script type="text/javascript">
-	
+
 	$(document).ready(function (e){
-	
+
 		var mode;
-		
+
 	  var bno = "<c:out value='${vo.bno}'/>";
-	  
+
 	  var replyTextObj = $("input[name='replyText']");
 	  var replyerObj = $("input[name='replyer']");
-	  
-	  var rno; 		
+
+	  var rno;
+
+    var lhno;
+    var loh = -1;
+
 	  //TODO: 수정이 필요
 
 	  var uid ="<c:out value='${uid}'/>";
 
-	  
+
 	  var csrf = JSON.parse("<c:out value='${_csrf}'/>");
-	  
-	  
+///////////////////////////////////////////////////////////////////////////likehate
+(function getCountLikeHate(){
+
+  likehateManager.getAll("<c:out value='${vo.bno}'/>", printCountLH);
+})();
+
+function printCountLH(list){
+  var likehateObj;
+  var like = 0;
+  var hate = 0;
+  for(var i = 0; i < list.length; i++){
+    likehateObj = list[i];
+    if(likehateObj.loh==true){
+      like += 1;
+    }else{
+      hate += 1;
+    }
+    if(uid==likehateObj.member.uid){
+      if(likehateObj.loh==true){
+        $("#like").css('background-color', 'green')
+        loh = true;
+      }else{
+        $("#hate").css('background-color', 'red')
+        loh = false;
+      }
+      lhno = likehateObj.lhno;
+    }
+  }
+  $("#like").html(like);
+  $("#hate").html(hate);
+}
+
+    $("#like").on('click', function(){
+      if(uid == null){
+        if(confirm("로그인 할까요?")){
+        //TODO: 수정이 필요 login 패스 나중에 수정해야됨
+          self.location = "../login"+"?dest=" + encodeURIComponent(self.location);
+        }
+        return;
+      }
+      if(loh==-1){//생성
+        loh = true;
+        var obj = {loh:loh, bno:bno, lhno:lhno, csrf:csrf};
+        likehateManager.add(obj, function(list){
+          alert("좋아요 생성되었습니다.")
+          afterLHAll(list);
+          $("#like").css('background-color', 'green');
+        });
+
+      }else if(loh==false){//업뎃
+        loh = true;
+        var obj = {loh:loh, bno:bno, lhno:lhno, csrf:csrf};
+        likehateManager.update(obj, function(list){
+          alert("좋아요가 수정되었습니다. ")
+          afterLHAll(list);
+          $("#like").css('background-color', 'green');
+        });
+
+      }else{//삭제
+        loh = -1
+        var obj = {bno:bno, lhno:lhno, csrf:csrf};
+        likehateManager.delete(obj, function(list){
+          alert("좋아요가 삭제되었습니다. ")
+          afterLHAll(list);
+          $("#like").css('background-color', 'grey');
+        });
+      }
+    });
+
+    $("#hate").on('click', function(){
+      if(uid == null){
+        if(confirm("로그인 할까요?")){
+        //TODO: 수정이 필요 login 패스 나중에 수정해야됨
+          self.location = "../login"+"?dest=" + encodeURIComponent(self.location);
+        }
+        return;
+      }
+      if(loh==-1){//생성
+        loh = false;
+        var obj = {loh:loh, bno:bno, lhno:lhno, csrf:csrf};
+        likehateManager.add(obj, function(list){
+          alert("싫어요 생성되었습니다.")
+          afterLHAll(list);
+          $("#hate").css('background-color', 'red');
+        });
+
+      }else if(loh==true){//업뎃
+        loh = false;
+        var obj = {loh:loh, bno:bno, lhno:lhno, csrf:csrf};
+        likehateManager.update(obj, function(list){
+          alert("싫어요가 수정되었습니다. ")
+          afterLHAll(list);
+          $("#hate").css('background-color', 'red');
+        });
+
+      }else{//삭제
+        loh = -1
+        var obj = {bno:bno, lhno:lhno, csrf:csrf};
+        likehateManager.delete(obj, function(list){
+          alert("싫어요가 삭제되었습니다. ")
+          afterLHAll(list);
+          $("#hate").css('background-color', 'grey');
+        });
+      }
+    });
+
+    function afterLHAll(list){
+		  printCountLH(list);
+	  }
+//////////////////////////////////////////////////////////////////////////reply
 	  $("#addReplyBtn").on('click', function(){
-		  
+
 		  if(uid == null){
 			  if(confirm("로그인 할까요?")){
 				//TODO: 수정이 필요 login 패스 나중에 수정해야됨
@@ -156,30 +273,30 @@
 			  }
 			  return;
 		  }
-		  
+
 		  replyerObj.val(uid);
-		  
+
 		  $("#myModal").modal("show");
 		  $(".modal-title").text("Add Reply");
-		  
+
 		  $("#delModalBtn").hide();
-		  
+
 		  mode= "ADD";
 	  });
-	  
-	 
-	  
+
+
+
 	  $("#goModBtn").click(function(e){
-		  
+
 		  e.preventDefault();
-		  
+
 		  if(uid == null){
 			  if(confirm("로그인 할까요?")){
 				  //self.location = [[@{/login}]];
 				  self.location = $(this).attr("href");
 			  }
 		  }else {
-			  
+
 			  if(uid == "<c:out value='${vo.member.uid}'/>"){
 					self.location = $(this).attr('href');
 			  }else {
@@ -187,112 +304,112 @@
 			  }
 		  }
 	  });
-	  
-	  
-	  
+
+
+
 	  $("#delModalBtn").on("click", function(){
-		  
+
 		  var obj = {bno:bno, rno:rno, csrf:csrf};
-		  
+
 		  replyManager.remove(obj, function(list){
-			  
+
 			  alert("댓글이 삭제되었습니다. ")
 				afterAll(list);
 		  });
-		  
+
 	  });
-	  
-	  
+
+
 	  $("#replyTable").on("click", "tr", function(e){
-		
+
 		  var tds = $(this).find('td');
-		  
+
 		  console.log(tds);
-		  
+
 		  rno = tds[0].innerHTML;
 		  mode ='MOD';
-		  
+
 		  replyTextObj.val(tds[1].innerHTML);
 		  replyerObj.val(tds[2].innerHTML);
 		  $("#delModalBtn").show();
 		  $("#myModal").modal("show");
 		  $(".modal-title").text("Modiy/Delete Reply");
-		  
+
 		  console.log("==================");
 		  console.log(uid);
 		  console.log(tds[2].innerHTML);
-		  
+
 		  console.log(uid == tds[2].innerHTML);
-		  
+
 		  if(uid != tds[2].innerHTML.trim() ){
-			
+
 			  $("#delModalBtn").hide();
 			  $("#modalBtn").hide();
-			  
+
 		  }
-		  
-		  
+
+
 	  });
-	  
+
 	  function afterAll(list){
 		  printList(list);
 		  $("#myModal").modal("hide");
 			replyTextObj.val("");
 			replyerObj.val("");
 	  }
-	  
-	  
+
+
 	  $("#modalBtn").click(function(){
-		  
+
 		  var replyText =  replyTextObj.val();
 			var replyer = replyerObj.val();
-		  		  
+
 		  if(mode =='ADD'){
-			  					
+
 				var obj = {
-						replyText:replyText, 
-						replyer: replyer, 
+						replyText:replyText,
+						replyer: replyer,
 						bno:bno,
 						csrf:csrf
 						};
-				
-				
+
+
 				//console.log(obj);
-				
+
 				replyManager.add(obj, function(list){
 					alert("새로운 댓글이 추가되었습니다. ")
 					afterAll(list);
-				});				
-		  
+				});
+
 		  }else if(mode='MOD'){
-			  
+
 			  var obj = {replyText:replyText, bno:bno, rno:rno, csrf:csrf};
-			  
-			  
+
+
 			  replyManager.update(obj, function(list){
-				  
+
 					alert("댓글이 수정되었습니다. ")
 					afterAll(list);
 			  });
-			  
+
 		  }
-				
+
 	  });
-		
+
 		(function getAllReplies(){
-			//load replies 
+			//load replies
 			replyManager.getAll("<c:out value='${vo.bno}'/>", printList);
 		})();
-		
-		
+
+
 	  function printList(list){
 
-		  
+
 		  var str = "";
 			var replyObj;
 			for(var i = 0; i < list.length; i++){
 				replyObj = list[i];
-				
+
 				str += "<tr>" +
 				"<td>"+ replyObj.rno+" </td>" +
 				"<td>"+ replyObj.replyText+" </td>" +
@@ -302,18 +419,18 @@
 			}
 			$("#replyTable").html(str);
 	  }
-		
+
 		function formatDate(timeValue){
-			
+
 			var date = new Date(timeValue);
-			return  date.getFullYear() 
-			  + "-" + (date.getMonth()+1 >= 10?date.getMonth()+1 : '0'+ (date.getMonth()+1)  ) 
+			return  date.getFullYear()
+			  + "-" + (date.getMonth()+1 >= 10?date.getMonth()+1 : '0'+ (date.getMonth()+1)  )
 			  + "-" + date.getDate()
-			
+
 		}
-		
+
 	});
-	</script>	
+	</script>
 	<jsp:include page="/WEB-INF/jsp/template/footer.jsp"></jsp:include>
 </body>
 </html>

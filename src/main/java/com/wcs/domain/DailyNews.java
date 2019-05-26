@@ -17,27 +17,28 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.Accessors;
 
 @Getter
 @Setter
+@Accessors(chain=true)
 @Entity
 @Table(name = "tbl_daily_news")
+@ToString
 @EqualsAndHashCode(of = "dnno")
-@ToString(exclude = {"member"})
 public class DailyNews {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long dnno;
-	private String title;
 	
-	private String content;
+	private String headline;	
+	private String imgSrc;
+	private String href;
+	private String pretxt;
+	private String office;	
 
 	@CreationTimestamp
 	private Timestamp regdate;
 	@UpdateTimestamp
 	private Timestamp updatedate;
-	
-	
-	@ManyToOne(fetch=FetchType.LAZY)
-	private Member member;
 }

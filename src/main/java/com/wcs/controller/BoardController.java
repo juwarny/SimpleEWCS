@@ -51,7 +51,7 @@ public class BoardController {
 	
 	
 	
-	@GetMapping("/register")
+	@GetMapping("/bregister")
 	public void registerGET(@ModelAttribute("vo")Board vo ){
 		log.info("register get");
 		vo.setTitle("샘플 게시물 제목입니다....");

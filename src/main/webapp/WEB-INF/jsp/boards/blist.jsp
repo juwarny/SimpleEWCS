@@ -13,7 +13,7 @@
 	<div class="panel-heading">List Page</div>
 	<div class="panel-body pull-right">
 		<h3>
-			<a class="label label-default " href="../bregister">새글 쓰기</a>
+			<a class="label label-default " href="./bregister">새글 쓰기</a>
 		</h3>
 	</div>
 	<div class="panel-body">
@@ -129,7 +129,7 @@
 
 												var boardNo = $(this).attr("href");
 
-												formObj.attr("action", "../bview");
+												formObj.attr("action", "./bview");
 												formObj.append("<input type='hidden' name='bno' value='" + boardNo +"'>");
 
 												formObj.submit();

@@ -28,7 +28,8 @@ public class LikeHate {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long lhno;
-	private boolean loh;
+	
+	private Boolean loh;
 
 	@CreationTimestamp
 	private Timestamp regdate;
