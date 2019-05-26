@@ -126,7 +126,7 @@
 	<!--  end Modal -->
 
 	<!-- 수정이 필요-->
-	<script type="text/javascript" src="${'/js/reply.js'}"></script>
+	<script type="text/javascript" src="/static/js/reply.js"></script>
 	<script type="text/javascript">
 	
 	$(document).ready(function (e){

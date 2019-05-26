@@ -51,28 +51,28 @@ public class BoardController {
 	
 	
 	
-//	@GetMapping("/register")
-//	public void registerGET(@ModelAttribute("vo")Board vo ){
-//		log.info("register get");
-//		vo.setTitle("샘플 게시물 제목입니다....");
-//		vo.setContent("내용을 처리해 봅니다 " );
-//		//TODO: 다시 만들어볼 것
-////		Member member = new Member();
-////		member.setUid("user00");
-////		vo.setMember(member);
-//	}
-//	
-//	@PostMapping("/register")
-//	public String registerPOST(@ModelAttribute("vo")Board vo, RedirectAttributes rttr){
-//		
-//		log.info("register post");
-//		log.info("" + vo);
-//
-//		repo.save(vo);
-//		rttr.addFlashAttribute("msg", "success");
-//		
-//		return "redirect:/boards/list";
-//	}
+	@GetMapping("/register")
+	public void registerGET(@ModelAttribute("vo")Board vo ){
+		log.info("register get");
+		vo.setTitle("샘플 게시물 제목입니다....");
+		vo.setContent("내용을 처리해 봅니다 " );
+		//TODO: 다시 만들어볼 것
+//		Member member = new Member();
+//		member.setUid("user00");
+//		vo.setMember(member);
+	}
+	
+	@PostMapping("/bregister")
+	public String registerPOST(@ModelAttribute("vo")Board vo, RedirectAttributes rttr){
+		
+		log.info("register post");
+		log.info("" + vo);
+
+		brepo.save(vo);
+		rttr.addFlashAttribute("msg", "success");
+		
+		return "redirect:/boards/blist";
+	}
 	
 	@GetMapping("/bview")
 	public void view(Long bno, @ModelAttribute("pageVO") PageVO vo, Model model){
