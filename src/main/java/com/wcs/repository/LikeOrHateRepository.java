@@ -14,7 +14,7 @@ public interface LikeOrHateRepository extends CrudRepository<LikeHate, Long> {
 
 	
 	@Query("SELECT h FROM LikeHate h WHERE h.board = ?1 " +
-	       " AND h.rno > 0 ORDER BY h.rno ASC")
+	       " AND h.lhno > 0 ORDER BY h.lhno ASC")
 	public List<LikeHate> getLikeOrHateOfBoard(Board board);
 	
 	@Query("SELECT h FROM LikeHate h WHERE h.board = ?1 " + "And h.member = ?2" +
