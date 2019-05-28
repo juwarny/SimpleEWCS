@@ -14,7 +14,7 @@
 	<div class="panel-heading">View Page</div>
 	<div class="panel-body">
 
-		<form action="${'/login'}"></form>
+		<form action="/sign/signin"></form>
 
 		<div class="form-group">
 			<label>BNO</label>
@@ -55,7 +55,7 @@
 				</c:otherwise>
 			</c:choose>
 
-			<c:url value="../bmodify" var="url">
+			<c:url value="./bmodify" var="url">
 			  <c:param name="page" value="${pageVO.page}"/>
 			  <c:param name="size" value="${pageVO.size}"/>
 			  <c:param name="type" value="${pageVO.type}"/>
@@ -63,7 +63,7 @@
 			  <c:param name="bno" value="${pageVO.bno}"/>
 			  <c:param name="bno" value="${pageVO.catno}"/>
 			</c:url>
-			<c:url value="../blist" var="url2">
+			<c:url value="./blist" var="url2">
 			  <c:param name="page" value="${pageVO.page}"/>
 			  <c:param name="size" value="${pageVO.size}"/>
 			  <c:param name="type" value="${pageVO.type}"/>
@@ -190,7 +190,7 @@ function printCountLH(list){
       if(uid == null){
         if(confirm("로그인 할까요?")){
         //TODO: 수정이 필요 login 패스 나중에 수정해야됨
-          self.location = "../login"+"?dest=" + encodeURIComponent(self.location);
+          self.location = "/sign/signin"+"?dest=" + encodeURIComponent(self.location);
         }
         return;
       }
@@ -227,7 +227,7 @@ function printCountLH(list){
       if(uid == null){
         if(confirm("로그인 할까요?")){
         //TODO: 수정이 필요 login 패스 나중에 수정해야됨
-          self.location = "../login"+"?dest=" + encodeURIComponent(self.location);
+          self.location = "/sign/signin"+"?dest=" + encodeURIComponent(self.location);
         }
         return;
       }
@@ -269,7 +269,7 @@ function printCountLH(list){
 		  if(uid == null){
 			  if(confirm("로그인 할까요?")){
 				//TODO: 수정이 필요 login 패스 나중에 수정해야됨
-				  self.location = "../login"+"?dest=" + encodeURIComponent(self.location);
+				  self.location = "/sign/signin"+"?dest=" + encodeURIComponent(self.location);
 			  }
 			  return;
 		  }

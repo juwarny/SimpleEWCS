@@ -56,9 +56,9 @@
 				<div>
 
 					<ul class="pagination">
-						<c:if test="${result.prevPage != '' || result.prevPage ne null}">
-							<li class="page-item"><a
-								href="${result.prevPage.pageNumber + 1} ">이전
+						<c:if test="${not empty result.prevPage}">
+							<li class="page-item">
+							<a href="${result.prevPage.pageNumber + 1} ">이전
 									${result.prevPage.pageNumber + 1}</a></li>
 						</c:if>
 
@@ -74,7 +74,7 @@
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
-						<c:if test="${result.nextPage}">
+						<c:if test="${not empty result.nextPage}">
 							<li class="page-item"><a
 								href="${result.nextPage.pageNumber + 1}">다음
 									${result.nextPage.pageNumber + 1}</a></li>
@@ -86,11 +86,10 @@
 
 	<form id='f1' action="./blist" method="get">
 		<input type='hidden' name='page' value="${result.currentPageNum}">
-		<input type='hidden' name='size'
-			value="${result.currentPage.pageSize}"> <input type='hidden'
-			name='type' value="${pageVO.type}"> <input type='hidden'
-			name='keyword' value="${pageVO.keyword}"> <input
-			type='hidden' name='catno' value="${pageVO.catno}">
+		<input type='hidden' name='size' value="${result.currentPage.pageSize}"> 
+		<input type='hidden' name='type' value="${pageVO.type}">
+		<input type='hidden' name='keyword' value="${pageVO.keyword}"> 
+		<input type='hidden' name='catno' value="${pageVO.catno}">
 	</form>
 
 

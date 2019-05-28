@@ -20,8 +20,8 @@ import lombok.extern.java.Log;
 @RequestMapping("/member/")
 public class MemberController {
   
-  @Autowired
-  PasswordEncoder pwEncoder;
+//  @Autowired
+//  PasswordEncoder pwEncoder;
   
   @Autowired
   MemberRepository repo;
@@ -37,11 +37,11 @@ public class MemberController {
 
     log.info("MEMBER: " + member);
 
-    String encryptPw = pwEncoder.encode(member.getUpw());
-
-    log.info("en: " + encryptPw);
-
-    member.setUpw(encryptPw);
+//    String encryptPw = pwEncoder.encode(member.getUpw());
+//
+//    log.info("en: " + encryptPw);
+//
+//    member.setUpw(encryptPw);
 
     repo.save(member);
 
