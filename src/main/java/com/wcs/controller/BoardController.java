@@ -83,7 +83,7 @@ public class BoardController {
 		
 	}
 	
-//	@Secured(value={"ROLE_BASIC","ROLE_MANAGER","ROLE_ADMIN"})
+	@Secured(value={"ROLE_BASIC","ROLE_MANAGER","ROLE_ADMIN"})
 	@GetMapping("/bmodify")
 	public void modify(Long bno, @ModelAttribute("pageVO") PageVO vo, Model model){
 		
@@ -92,7 +92,7 @@ public class BoardController {
 		Optional.ofNullable(brepo.findOne(bno)).ifPresent(board -> model.addAttribute("vo", board));
 	}
 	
-//	@Secured(value={"ROLE_BASIC","ROLE_MANAGER","ROLE_ADMIN"})
+	@Secured(value={"ROLE_BASIC","ROLE_MANAGER","ROLE_ADMIN"})
 	@PostMapping("/bmodify")
 	public String modifyPost(Board board, PageVO vo, RedirectAttributes rttr ){
 		
@@ -117,27 +117,27 @@ public class BoardController {
 
 		return "redirect:/boards/bview";
 	}
-//	
-//	@Secured(value={"ROLE_BASIC","ROLE_MANAGER","ROLE_ADMIN"})
-//	@PostMapping("/delete")
-//	public String delete(Long bno, PageVO vo, RedirectAttributes rttr ){
-//		
-//		log.info("DELETE BNO: " + bno);
-//		
-//		repo.delete(bno);
-//		
-//		rttr.addFlashAttribute("msg", "success");
-//
-//		//페이징과 검색했던 결과로 이동하는 경우 
-//		rttr.addAttribute("page", vo.getPage());
-//		rttr.addAttribute("size", vo.getSize());
-//		rttr.addAttribute("type", vo.getType());
-//		rttr.addAttribute("keyword", vo.getKeyword());
-//
-//		return "redirect:/boards/list";
-//	}
-//	
-//	
+	
+	@Secured(value={"ROLE_BASIC","ROLE_MANAGER","ROLE_ADMIN"})
+	@PostMapping("/delete")
+	public String delete(Long bno, PageVO vo, RedirectAttributes rttr ){
+		
+		log.info("DELETE BNO: " + bno);
+		
+		brepo.delete(bno);
+		
+		rttr.addFlashAttribute("msg", "success");
+
+		//페이징과 검색했던 결과로 이동하는 경우 
+		rttr.addAttribute("page", vo.getPage());
+		rttr.addAttribute("size", vo.getSize());
+		rttr.addAttribute("type", vo.getType());
+		rttr.addAttribute("keyword", vo.getKeyword());
+
+		return "redirect:/boards/blist";
+	}
+	
+	
 	@GetMapping("/blist")
 	@Transactional
 	public void list(@ModelAttribute("pageVO") PageVO vo, Model model){
@@ -151,7 +151,6 @@ public class BoardController {
 		log.info(""+result);
 		
 		log.info("TOTAL PAGE NUMBER: " + result.getTotalPages());
-//		PageMaker a = new PageMaker<>(result, page);
 		model.addAttribute("result", new PageMaker<>(result, page));
 				
 	}
