@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
+	
 <header>
 	<nav class="navbar navbar-default navbar-fixed-top">
 		<div class="container-fluid">
@@ -16,9 +18,10 @@
 			<div class="collapse navbar-collapse"
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav nav-pills">
-					<li><a href="#">Home</a></li>
+					<c:url value='/' var="url"/>
+					<li><a href="${url}main">Home</a></li>
 					<li><a href="#">채팅 토론</a></li>
-					<li><a href="#">토픽 게시판</a></li>
+					<li><a href="${url}boards/topic">토픽 게시판</a></li>
 					<li><a href="#">UP&Down</a></li>
 					<li><a href="#">일일뉴스</a></li>
 				</ul>

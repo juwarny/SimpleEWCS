@@ -13,7 +13,10 @@
 	<div class="panel-heading">List Page</div>
 	<div class="panel-body pull-right">
 		<h3>
-			<a class="label label-default " href="./bregister">새글 쓰기</a>
+			<c:url value="./bregister" var="url">
+			  <c:param name="cno" value="${pageVO.cno}"/>
+			</c:url>
+			<a class="label label-default " href="${url}">새글 쓰기</a>
 		</h3>
 	</div>
 	<div class="panel-body">
@@ -90,7 +93,7 @@
 			value="${result.currentPage.pageSize}"> <input type='hidden'
 			name='type' value="${pageVO.type}"> <input type='hidden'
 			name='keyword' value="${pageVO.keyword}"> <input
-			type='hidden' name='catno' value="${pageVO.catno}">
+			type='hidden' name='cno' value="${pageVO.cno}">
 	</form>
 
 

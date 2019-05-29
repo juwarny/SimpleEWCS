@@ -27,10 +27,15 @@
 			<c:set var="member" value="${principal.member}"/>
 			<div class="form-group">
 				<label>Writer</label>
-				<input class="form-control" name="writer" value="${member.uid}" readonly="readonly"/>
+				<input class="form-control" name="member.uid" value="${member.uid}" readonly="readonly"/>
+			</div>
+			<div class="form-group">
+				<label>Category</label>
+				<input class="form-control" name="category.cno" value="${vo.category.cno}" readonly="readonly"/>
 			</div>
 			<button type="submit" class="btn btn-default">Submit Button</button>
 			<button type="reset" class="btn btn-primary">Reset Button</button>
+			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 		</form>
 	</div>	
 	<jsp:include page="/WEB-INF/jsp/template/footer.jsp"></jsp:include>

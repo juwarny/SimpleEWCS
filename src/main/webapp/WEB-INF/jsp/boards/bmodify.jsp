@@ -36,7 +36,8 @@
 			<input type='hidden' name="size" value="${pageVO.size}"> 
 			<input type='hidden' name="type" value="${pageVO.type}"> 
 			<input type='hidden' name="keyword" value="${pageVO.keyword}">
-			<input type='hidden' name="keyword" value="${pageVO.catno}">
+			<input type='hidden' name="keyword" value="${pageVO.cno}">
+			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 
 		</form>
 
@@ -50,13 +51,13 @@
 
 			<a href="#" class="btn btn-warning modbtn">Modify</a>
 			<a href="#" class="btn btn-danger delbtn">Delete</a>			
-			<c:url value="../blist" var="url">
+			<c:url value="./blist" var="url">
 			  <c:param name="page" value="${pageVO.page}"/>
 			  <c:param name="size" value="${pageVO.size}"/>
 			  <c:param name="type" value="${pageVO.type}"/>
 			  <c:param name="keyword" value="${pageVO.keyword}"/>
-			  <c:param name="bno" value="${pageVO.bno}"/>
-			  <c:param name="bno" value="${pageVO.catno}"/>			  
+			  <c:param name="bno" value="${vo.bno}"/>
+			  <c:param name="cno" value="${pageVO.cno}"/>			  
 			</c:url>
 			<a href="${url}" class="btn btn-primary">Cancel & Go List</a>
 		</div>
@@ -79,7 +80,7 @@
 		
 		$(".modbtn").click(function(){
 			
-			formObj.attr("action","modify");
+			formObj.attr("action","bmodify");
 			formObj.attr("method", "post");
 			
 			formObj.submit();

@@ -36,15 +36,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		http.authorizeRequests()
 		.antMatchers("/boards/blist").permitAll()
+		.antMatchers("/boards/topic").permitAll()
 		.antMatchers("/boards/bregister")
 		.hasAnyRole("BASIC", "MANAGER", "ADMIN");
 		
 		http.authorizeRequests()
 		.antMatchers("/member/signup").permitAll().anyRequest().authenticated();
 		
-		// http.formLogin();
-		http.formLogin()
-		.loginPage("/sign/signin").successHandler(new LoginSuccessHandler());
+		 http.formLogin();
+//		http.formLogin()
+//		.loginPage("/sign/signin").successHandler(new LoginSuccessHandler());
 		
 		
 		http.exceptionHandling().accessDeniedPage("/sign/accessDenied");

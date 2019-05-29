@@ -55,21 +55,21 @@
 				</c:otherwise>
 			</c:choose>
 
-			<c:url value="../bmodify" var="url">
+			<c:url value="./bmodify" var="url">
 			  <c:param name="page" value="${pageVO.page}"/>
 			  <c:param name="size" value="${pageVO.size}"/>
 			  <c:param name="type" value="${pageVO.type}"/>
 			  <c:param name="keyword" value="${pageVO.keyword}"/>
-			  <c:param name="bno" value="${pageVO.bno}"/>
-			  <c:param name="bno" value="${pageVO.catno}"/>
+			  <c:param name="bno" value="${vo.bno}"/>
+			  <c:param name="cno" value="${pageVO.cno}"/>
 			</c:url>
-			<c:url value="../blist" var="url2">
+			<c:url value="./blist" var="url2">
 			  <c:param name="page" value="${pageVO.page}"/>
 			  <c:param name="size" value="${pageVO.size}"/>
 			  <c:param name="type" value="${pageVO.type}"/>
 			  <c:param name="keyword" value="${pageVO.keyword}"/>
-			  <c:param name="bno" value="${pageVO.bno}"/>
-			  <c:param name="bno" value="${pageVO.catno}"/>
+			  <c:param name="bno" value="${vo.bno}"/>
+			  <c:param name="cno" value="${pageVO.cno}"/>
 			</c:url>
 
 			<a href="${url}" class="btn btn-default" id='goModBtn'>Modify/Delete</a>

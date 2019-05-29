@@ -15,22 +15,21 @@ public class PageVO {
 	private String keyword;
 	private String type;
 	
-	private String catno;
+	private String cno;
 
 
 	public PageVO() {
 		this.page = 1;
 		this.size = DEFAULT_SIZE;
-		this.catno = "0";
 	}
 	
-	public String getCatno() {
-		return catno;
+	public String getCno() {
+		return cno;
 	}
 
 
-	public void setCatno(String catno) {
-		this.catno = catno;
+	public void setCno(String catno) {
+		this.cno = catno;
 	}
 
 	public String getKeyword() {

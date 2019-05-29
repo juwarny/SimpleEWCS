@@ -46,16 +46,18 @@ public class BoardController {
 	public void topicGET(@ModelAttribute("vo")Category vo, Model model) {
 		log.info("---------------topic get");
 		List<Object[]> resultOfCategory = catrepo.getCategoryNamesAndBoardsCount();
-		model.addAttribute("resultOfCategory", resultOfCategory);
+		model.addAttribute("result", resultOfCategory);
 	}
 	
 	
 	
 	@GetMapping("/bregister")
-	public void registerGET(@ModelAttribute("vo")Board vo ){
+	public void registerGET(Long cno, @ModelAttribute("vo")Board vo ){
 		log.info("register get");
 		vo.setTitle("샘플 게시물 제목입니다....");
 		vo.setContent("내용을 처리해 봅니다 " );
+		vo.setCategory(new Category());
+		vo.getCategory().setCno(cno);
 		//TODO: 다시 만들어볼 것
 //		Member member = new Member();
 //		member.setUid("user00");
@@ -67,9 +69,11 @@ public class BoardController {
 		
 		log.info("register post");
 		log.info("" + vo);
-
+//		vo.getCategory().setCno(cno);
 		brepo.save(vo);
+		
 		rttr.addFlashAttribute("msg", "success");
+		rttr.addAttribute("cno", vo.getCategory().getCno());
 		
 		return "redirect:/boards/blist";
 	}
@@ -113,7 +117,7 @@ public class BoardController {
 		rttr.addAttribute("size", vo.getSize());
 		rttr.addAttribute("type", vo.getType());
 		rttr.addAttribute("keyword", vo.getKeyword());
-		rttr.addAttribute("catno", vo.getCatno());
+		rttr.addAttribute("catno", vo.getCno());
 
 		return "redirect:/boards/bview";
 	}
@@ -145,7 +149,7 @@ public class BoardController {
 		Pageable page = vo.makePageable(0, "bno");
 		
 		Page<Object[]> result = brepo.getCustomPage(vo.getType(), 
-				vo.getKeyword(), page, Long.parseLong(vo.getCatno()));
+				vo.getKeyword(), page, Long.parseLong(vo.getCno()));
 		
 		log.info(""+ page);
 		log.info(""+result);

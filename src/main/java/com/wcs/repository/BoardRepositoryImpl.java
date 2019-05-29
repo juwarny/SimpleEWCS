@@ -25,7 +25,7 @@ public class BoardRepositoryImpl extends QueryDslRepositorySupport implements Bo
 	}
 
 	@Override
-	public Page<Object[]> getCustomPage(String type, String keyword, Pageable page, Long catno) {
+	public Page<Object[]> getCustomPage(String type, String keyword, Pageable page, Long cno) {
 		log.info("====================================");
 		log.info("TYPE: " + type);
 		log.info("KEYWORD: " + keyword);
@@ -39,7 +39,7 @@ public class BoardRepositoryImpl extends QueryDslRepositorySupport implements Bo
 		
 		JPQLQuery<Tuple> tuple = query.select(b.bno, b.title, r.count(), b.member.uid, b.regdate);
 		tuple.leftJoin(b.replies, r);
-		tuple.where(b.bno.gt(0L).and(b.category.cno.eq(catno)));
+		tuple.where(b.bno.gt(0L).and(b.category.cno.eq(cno)));
 		
 		if(type != null){
 			
