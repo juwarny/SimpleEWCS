@@ -7,7 +7,7 @@
 	<jsp:include page="/WEB-INF/jsp/template/header.jsp"></jsp:include>
 </head>
 <body>
-	c.cno, c.cname, b.count()
+	<jsp:include page="/WEB-INF/jsp/template/navbar.jsp"></jsp:include>
 	<table class="table table-striped table-bordered table-hover"
 				id="dataTables-example">
 				<thead>
@@ -29,7 +29,6 @@
 					</c:forEach>
 				</tbody>
 			</table>
-	<jsp:include page="/WEB-INF/jsp/template/navbar.jsp"></jsp:include>
 	<jsp:include page="/WEB-INF/jsp/template/footer.jsp"></jsp:include>
 </body>
 </html>

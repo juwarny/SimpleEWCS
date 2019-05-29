@@ -23,7 +23,7 @@
 					<li><a href="#">채팅 토론</a></li>
 					<li><a href="${url}boards/topic">토픽 게시판</a></li>
 					<li><a href="#">UP&Down</a></li>
-					<li><a href="#">일일뉴스</a></li>
+					<li><a href="${url}dailynews/dnlist">일일뉴스</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li>
