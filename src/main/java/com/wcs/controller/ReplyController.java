@@ -1,5 +1,6 @@
 package com.wcs.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,8 +20,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wcs.domain.Board;
+import com.wcs.domain.Member;
 import com.wcs.domain.Reply;
 import com.wcs.repository.ReplyRepository;
+import com.wcs.vo.ReplyVO;
 
 import lombok.extern.java.Log;
 
@@ -34,7 +37,7 @@ public class ReplyController {
 	
 	
 	@GetMapping("/{bno}")
-	public ResponseEntity<List<Reply>> getReplies(
+	public ResponseEntity<List<ReplyVO>> getReplies(
 			@PathVariable("bno")Long bno){
 	
 		log.info("get All Replies..........................");
@@ -46,21 +49,34 @@ public class ReplyController {
 	
 	
 	
-//	@Secured(value={"ROLE_BASIC","ROLE_MANAGER","ROLE_ADMIN"})
+	@Secured(value={"ROLE_BASIC","ROLE_MANAGER","ROLE_ADMIN"})
 	@Transactional
 	@PostMapping("/{bno}")
-	public ResponseEntity<List<Reply>> addReply(
+	public ResponseEntity<List<ReplyVO>> addReply(
 			@PathVariable("bno")Long bno, 
-			@RequestBody Reply reply){
+			@RequestBody ReplyVO replyVO){
 
 		log.info("addReply..........................");
 		log.info("BNO: " + bno);
-		log.info("REPLY: " + reply);
+		log.info("REPLY: " + replyVO);
 		
 		Board board = new Board();
 		board.setBno(bno);
 		
+		
+		Reply reply = new Reply();
+		
 		reply.setBoard(board);
+		reply.setRegdate(replyVO.getRegdate());
+		reply.setUpdatedate(replyVO.getUpdatedate());
+		reply.setRno(replyVO.getRno());
+		
+		Member replyer = new Member();
+		replyer.setUid(replyVO.getReplyer());
+		reply.setReplyer(replyer);
+		
+		reply.setReplyText(replyVO.getReplyText());
+		
 		
 		replyRepo.save(reply);		
 		
@@ -68,10 +84,10 @@ public class ReplyController {
 		
 	}
 	
-//	@Secured(value={"ROLE_BASIC","ROLE_MANAGER","ROLE_ADMIN"})
+	@Secured(value={"ROLE_BASIC","ROLE_MANAGER","ROLE_ADMIN"})
 	@Transactional
 	@DeleteMapping("/{bno}/{rno}")
-	public ResponseEntity<List<Reply>> remove(
+	public ResponseEntity<List<ReplyVO>> remove(
 			@PathVariable("bno")Long bno,
 			@PathVariable("rno")Long rno){
 		
@@ -87,11 +103,11 @@ public class ReplyController {
 	}
 	
 	
-//	@Secured(value={"ROLE_BASIC","ROLE_MANAGER","ROLE_ADMIN"})
+	@Secured(value={"ROLE_BASIC","ROLE_MANAGER","ROLE_ADMIN"})
 	@Transactional
 	@PutMapping("/{bno}")
-	public ResponseEntity<List<Reply>> modify(@PathVariable("bno")Long bno, 
-			@RequestBody Reply reply){
+	public ResponseEntity<List<ReplyVO>> modify(@PathVariable("bno")Long bno, 
+			@RequestBody ReplyVO reply){
 	
 		log.info("modify reply: "+ reply);
 		
@@ -100,7 +116,11 @@ public class ReplyController {
 		replyOp.ifPresent(origin -> {
 			
 			origin.setReplyText(reply.getReplyText());
-			origin.setReplyer(reply.getReplyer());
+			
+			Member replyer = new Member();
+			replyer.setUid(reply.getReplyer());
+			
+			origin.setReplyer(replyer);
 			
 			replyRepo.save(origin);
 		});
@@ -111,10 +131,21 @@ public class ReplyController {
 		return new ResponseEntity<>(getListByBoard(board), HttpStatus.OK);
 	}
 	
-	private List<Reply> getListByBoard(Board board)throws RuntimeException{
+	private List<ReplyVO> getListByBoard(Board board)throws RuntimeException{
 		
 		log.info("getListByBoard...." + board);
-		return replyRepo.getRepliesOfBoard(board);
+		List<ReplyVO> list = new ArrayList<ReplyVO>();
+		replyRepo.getRepliesOfBoard(board).forEach(reply->{
+			ReplyVO vo = new ReplyVO();
+			vo.setBno(reply.getBoard().getBno());
+			vo.setRegdate(reply.getRegdate());
+			vo.setUpdatedate(reply.getUpdatedate());
+			vo.setRno(reply.getRno());
+			vo.setReplyer(reply.getReplyer().getUid());
+			vo.setReplyText(reply.getReplyText());
+			list.add(vo);
+		});
+		return list;
 		
 	}
 	

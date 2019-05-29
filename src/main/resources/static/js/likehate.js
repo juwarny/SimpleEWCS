@@ -4,9 +4,6 @@ var likehateManager = (function(){
 		console.log("get All....");
 
 		$.getJSON('/likehate/'+obj, callback );
-
-
-
 	};
 
 	var add = function(obj, callback){

@@ -47,6 +47,7 @@ public class Board {
 	@OneToMany(mappedBy="board", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	private List<Reply> replies;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="board", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	private List<LikeHate> likehates;
 	

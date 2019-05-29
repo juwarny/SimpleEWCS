@@ -7,6 +7,8 @@
 <html>
 <head>
 <jsp:include page="/WEB-INF/jsp/template/header.jsp"></jsp:include>
+<meta name="_csrf" content="${_csrf.token}"/>
+<meta name="_csrf_header" content="${_csrf.headerName}"/>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/jsp/template/navbar.jsp"></jsp:include>
@@ -130,8 +132,9 @@
 	<!--  end Modal -->
 
 	<!-- 수정이 필요-->
-	<script type="text/javascript" src="/static/js/reply.js"></script>
-	<script type="text/javascript" src="/static/js/likehate.js"></script>
+	<c:url value='/' var="url3"/>
+	<script type="text/javascript" src="${url3}static/js/reply.js"></script>
+	<script type="text/javascript" src="${url3}static/js/likehate.js"></script>
 	<script type="text/javascript">
 
 	$(document).ready(function (e){
@@ -153,12 +156,16 @@
 	  var uid ="<c:out value='${uid}'/>";
 
 
-	  var csrf = JSON.parse("<c:out value='${_csrf}'/>");
+	  //var csrf = JSON.parse("<c:out value='${_csrf}'/>");
+	  var token = $("meta[name='_csrf']").attr("content");
+      var headerName = $("meta[name='_csrf_header']").attr("content");
+	  var csrf = {token: token, headerName: headerName};
 ///////////////////////////////////////////////////////////////////////////likehate
-(function getCountLikeHate(){
+function getCountLikeHate(){
 
   likehateManager.getAll("<c:out value='${vo.bno}'/>", printCountLH);
-})();
+}
+	  getCountLikeHate();
 
 function printCountLH(list){
   var likehateObj;
@@ -264,7 +271,7 @@ function printCountLH(list){
 		  printCountLH(list);
 	  }
 //////////////////////////////////////////////////////////////////////////reply
-	  $("#addReplyBtn").on('click', function(){
+	  $("#addReplyBtn").on('click', function(e){
 
 		  if(uid == null){
 			  if(confirm("로그인 할까요?")){
@@ -363,6 +370,7 @@ function printCountLH(list){
 
 		  var replyText =  replyTextObj.val();
 			var replyer = replyerObj.val();
+				
 
 		  if(mode =='ADD'){
 
@@ -383,7 +391,7 @@ function printCountLH(list){
 
 		  }else if(mode='MOD'){
 
-			  var obj = {replyText:replyText, bno:bno, rno:rno, csrf:csrf};
+			  var obj = {replyText:replyText, bno:bno, rno:rno, csrf:csrf, replyer:replyer};
 
 
 			  replyManager.update(obj, function(list){
@@ -396,10 +404,11 @@ function printCountLH(list){
 
 	  });
 
-		(function getAllReplies(){
+		function getAllReplies(){
 			//load replies
 			replyManager.getAll("<c:out value='${vo.bno}'/>", printList);
-		})();
+		}
+		getAllReplies();
 
 
 	  function printList(list){

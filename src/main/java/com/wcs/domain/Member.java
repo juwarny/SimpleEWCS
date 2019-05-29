@@ -14,6 +14,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -52,6 +54,7 @@ public class Member {
   //@JoinColumn(name = "member")
   private List<Board> boards;
   
+  @JsonIgnore
   @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
   //@JoinColumn(name = "member")
   private List<Reply> replies;
