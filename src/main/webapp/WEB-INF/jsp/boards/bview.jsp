@@ -80,8 +80,8 @@
 
 	</div>
 	<div class="container">
-		<button class="btn" id="like"></button>
-		<button class="btn" id="hate"></button>
+		<label>like</label><button class="btn" id="like"></button>
+		<label>hate</label><button class="btn" id="hate"></button>
 	</div>
 
 	<div class='container'>
@@ -178,7 +178,7 @@ function printCountLH(list){
     }else{
       hate += 1;
     }
-    if(uid==likehateObj.member.uid){
+    if(uid==likehateObj.uid){
       if(likehateObj.loh==true){
         $("#like").css('background-color', 'green')
         loh = true;
@@ -203,7 +203,7 @@ function printCountLH(list){
       }
       if(loh==-1){//생성
         loh = true;
-        var obj = {loh:loh, bno:bno, lhno:lhno, csrf:csrf};
+        var obj = {loh:loh, bno:bno, lhno:lhno, csrf:csrf, uid:uid};
         likehateManager.add(obj, function(list){
           alert("좋아요 생성되었습니다.")
           afterLHAll(list);
@@ -212,7 +212,7 @@ function printCountLH(list){
 
       }else if(loh==false){//업뎃
         loh = true;
-        var obj = {loh:loh, bno:bno, lhno:lhno, csrf:csrf};
+        var obj = {loh:loh, bno:bno, lhno:lhno, csrf:csrf, uid:uid};
         likehateManager.update(obj, function(list){
           alert("좋아요가 수정되었습니다. ")
           afterLHAll(list);
@@ -222,7 +222,7 @@ function printCountLH(list){
       }else{//삭제
         loh = -1
         var obj = {bno:bno, lhno:lhno, csrf:csrf};
-        likehateManager.delete(obj, function(list){
+        likehateManager.remove(obj, function(list){
           alert("좋아요가 삭제되었습니다. ")
           afterLHAll(list);
           $("#like").css('background-color', 'grey');
@@ -240,7 +240,7 @@ function printCountLH(list){
       }
       if(loh==-1){//생성
         loh = false;
-        var obj = {loh:loh, bno:bno, lhno:lhno, csrf:csrf};
+        var obj = {loh:loh, bno:bno, lhno:lhno, csrf:csrf, uid:uid};
         likehateManager.add(obj, function(list){
           alert("싫어요 생성되었습니다.")
           afterLHAll(list);
@@ -249,7 +249,7 @@ function printCountLH(list){
 
       }else if(loh==true){//업뎃
         loh = false;
-        var obj = {loh:loh, bno:bno, lhno:lhno, csrf:csrf};
+        var obj = {loh:loh, bno:bno, lhno:lhno, csrf:csrf, uid:uid};
         likehateManager.update(obj, function(list){
           alert("싫어요가 수정되었습니다. ")
           afterLHAll(list);
@@ -259,7 +259,7 @@ function printCountLH(list){
       }else{//삭제
         loh = -1
         var obj = {bno:bno, lhno:lhno, csrf:csrf};
-        likehateManager.delete(obj, function(list){
+        likehateManager.remove(obj, function(list){
           alert("싫어요가 삭제되었습니다. ")
           afterLHAll(list);
           $("#hate").css('background-color', 'grey');

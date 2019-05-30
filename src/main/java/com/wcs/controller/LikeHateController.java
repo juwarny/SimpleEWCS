@@ -1,5 +1,6 @@
 package com.wcs.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.wcs.domain.Board;
 import com.wcs.domain.LikeHate;
+import com.wcs.domain.Member;
 import com.wcs.repository.LikeOrHateRepository;
+import com.wcs.vo.LikeHateVO;
+import com.wcs.vo.ReplyVO;
+
 import lombok.extern.java.Log;
 
 @RestController
@@ -33,7 +38,7 @@ public class LikeHateController {
 	
 	
 	@GetMapping("/{bno}")
-	public ResponseEntity<List<LikeHate>> getReplies(
+	public ResponseEntity<List<LikeHateVO>> getReplies(
 			@PathVariable("bno")Long bno){
 	
 		log.info("get All Replies..........................");
@@ -45,21 +50,32 @@ public class LikeHateController {
 	
 	
 	
-//	@Secured(value={"ROLE_BASIC","ROLE_MANAGER","ROLE_ADMIN"})
+	@Secured(value={"ROLE_BASIC","ROLE_MANAGER","ROLE_ADMIN"})
 	@Transactional
 	@PostMapping("/{bno}")
-	public ResponseEntity<List<LikeHate>> addLikeHate(
+	public ResponseEntity<List<LikeHateVO>> addLikeHate(
 			@PathVariable("bno")Long bno, 
-			@RequestBody LikeHate likehate){
+			@RequestBody LikeHateVO likehateVO){
 
 		log.info("addLikeHate..........................");
 		log.info("BNO: " + bno);
-		log.info("LikeHate: " + likehate);
+		log.info("LikeHate: " + likehateVO);
 		
 		Board board = new Board();
 		board.setBno(bno);
 		
+		LikeHate likehate = new LikeHate();
+		
 		likehate.setBoard(board);
+		likehate.setRegdate(likehateVO.getRegdate());
+		likehate.setUpdatedate(likehateVO.getUpdatedate());
+		likehate.setLhno(likehateVO.getLhno());
+		
+		Member member = new Member();
+		member.setUid(likehateVO.getUid());
+		likehate.setMember(member);
+		
+		likehate.setLoh(likehateVO.getLoh());
 		
 		repo.save(likehate);		
 		
@@ -67,10 +83,10 @@ public class LikeHateController {
 		
 	}
 	
-//	@Secured(value={"ROLE_BASIC","ROLE_MANAGER","ROLE_ADMIN"})
+	@Secured(value={"ROLE_BASIC","ROLE_MANAGER","ROLE_ADMIN"})
 	@Transactional
 	@DeleteMapping("/{bno}/{lhno}")
-	public ResponseEntity<List<LikeHate>> remove(
+	public ResponseEntity<List<LikeHateVO>> remove(
 			@PathVariable("bno")Long bno,
 			@PathVariable("lhno")Long lhno){
 		
@@ -86,18 +102,24 @@ public class LikeHateController {
 	}
 	
 	
-//	@Secured(value={"ROLE_BASIC","ROLE_MANAGER","ROLE_ADMIN"})
+	@Secured(value={"ROLE_BASIC","ROLE_MANAGER","ROLE_ADMIN"})
 	@Transactional
 	@PutMapping("/{bno}")
-	public ResponseEntity<List<LikeHate>> modify(@PathVariable("bno")Long bno, 
-			@RequestBody LikeHate likehate){
+	public ResponseEntity<List<LikeHateVO>> modify(@PathVariable("bno")Long bno, 
+			@RequestBody LikeHateVO likehateVO){
 	
-		log.info("modify LikeHate: "+ likehate);
+		log.info("modify LikeHate: "+ likehateVO);
 		
-		Optional<LikeHate> likeHateOp = Optional.ofNullable(repo.findOne(likehate.getLhno()));				
+		Optional<LikeHate> likeHateOp = Optional.ofNullable(repo.findOne(likehateVO.getLhno()));				
 		
 		likeHateOp.ifPresent(origin -> {
-			origin.setLoh(likehate.getLoh());			
+			origin.setLoh(likehateVO.getLoh());
+			
+			Member member = new Member();
+			member.setUid(likehateVO.getUid());
+			
+			origin.setMember(member);			
+			
 			repo.save(origin);
 		});
 		
@@ -107,10 +129,21 @@ public class LikeHateController {
 		return new ResponseEntity<>(getListByBoard(board), HttpStatus.OK);
 	}
 	
-	private List<LikeHate> getListByBoard(Board board)throws RuntimeException{		
+	private List<LikeHateVO> getListByBoard(Board board)throws RuntimeException{		
 		
 		log.info("getListByBoard...." + board);
-		return repo.getLikeOrHateOfBoard(board);		
+		List<LikeHateVO> list = new ArrayList<LikeHateVO>();
+		repo.getLikeOrHateOfBoard(board).forEach(likehate->{
+			LikeHateVO vo = new LikeHateVO();
+			vo.setBno(likehate.getBoard().getBno());
+			vo.setRegdate(likehate.getRegdate());
+			vo.setUpdatedate(likehate.getUpdatedate());
+			vo.setLhno(likehate.getLhno());
+			vo.setUid(likehate.getMember().getUid());
+			vo.setLoh(likehate.getLoh());
+			list.add(vo);
+		});
+		return list;		
 	}
 	
 	

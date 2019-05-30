@@ -59,7 +59,7 @@
 				<div>
 
 					<ul class="pagination">
-						<c:if test="${result.prevPage != '' || result.prevPage ne null}">
+						<c:if test="${not empty result.prevPage}">
 							<li class="page-item"><a
 								href="${result.prevPage.pageNumber + 1} ">이전
 									${result.prevPage.pageNumber + 1}</a></li>
@@ -68,16 +68,16 @@
 						<c:forEach items="${result.pageList}" var="p">
 							<c:choose>
 								<c:when test="${p.pageNumber == result.currentPageNum -1}">
-									<li class="page-item active"><a href="${p.pageNumber} +1">${p.pageNumber + 1}</a>
+									<li class="page-item active"><a href="${p.pageNumber + 1}">${p.pageNumber + 1}</a>
 									</li>
 								</c:when>
 								<c:otherwise>
-									<li class="page-item"><a href="${p.pageNumber} +1">${p.pageNumber + 1}</a>
+									<li class="page-item"><a href="${p.pageNumber +1}">${p.pageNumber + 1}</a>
 									</li>
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
-						<c:if test="${result.nextPage}">
+						<c:if test="${not empty result.nextPage}">
 							<li class="page-item"><a
 								href="${result.nextPage.pageNumber + 1}">다음
 									${result.nextPage.pageNumber + 1}</a></li>
