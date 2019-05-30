@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -35,27 +36,30 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 		
 		http.authorizeRequests()
-		.antMatchers("/boards/blist").permitAll()
+		.antMatchers("/main").permitAll()
 		.antMatchers("/boards/topic").permitAll()
 		.antMatchers("/dailynews/dnlist").permitAll()
+		.antMatchers("/*.js").permitAll()
+		.antMatchers("/*.css").permitAll()
+		.antMatchers("/boards/blist").hasAnyRole("BASIC", "MANAGER", "ADMIN")
 		.antMatchers("/boards/bregister")
 		.hasAnyRole("BASIC", "MANAGER", "ADMIN");
 		
 		http.authorizeRequests()
-		.antMatchers("/member/signup").permitAll().anyRequest().authenticated();
+		.antMatchers("/member/signup").permitAll().anyRequest().permitAll();
 		
-		 http.formLogin();
-//		http.formLogin()
-//		.loginPage("/sign/signin").successHandler(new LoginSuccessHandler());
-		
-		
-		http.exceptionHandling().accessDeniedPage("/sign/accessDenied");
-		
-		// http.logout().invalidateHttpSession(true);
-		http.logout().logoutUrl("/sign/signout").invalidateHttpSession(true);
+//		http.authorizeRequests().antMatchers("/static/**").permitAll();
 
-		// http.userDetailsService(userService);
+//		 http.formLogin();
+		http.formLogin()
+		.loginPage("/signin").successHandler(new LoginSuccessHandler());
+		
+		
+		http.exceptionHandling().accessDeniedPage("/accessDenied");
+		
+		http.logout().logoutUrl("/signout").invalidateHttpSession(true);
 
+		
 		http.rememberMe()
 		    .key("wcs")
 		    .userDetailsService(userService)
@@ -84,5 +88,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
 
 	}
+	
+//	@Override
+//    public void configure(WebSecurity web) throws Exception {
+//        web.ignoring().antMatchers("/resources/static/**").anyRequest();
+//    }
 
 }
