@@ -26,7 +26,7 @@ import lombok.ToString;
 @Entity
 @Table(name = "tbl_members")
 @EqualsAndHashCode(of = "uid")
-@ToString(exclude = {"boards", "replies", "chats", "likehates", "dailynews"})
+@ToString(exclude = {"boards", "replies", "chats", "likehates", "dailynews", "chrooms"})
 public class Member {
 
   @Id
@@ -51,23 +51,23 @@ public class Member {
   private List<MemberRole> roles;
   
   @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
-  //@JoinColumn(name = "member")
   private List<Board> boards;
   
   @JsonIgnore
   @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
-  //@JoinColumn(name = "member")
   private List<Reply> replies;
   
+  @JsonIgnore
   @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
-  //@JoinColumn(name = "member")
   private List<Chatting> chats;
   
+  @JsonIgnore
   @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
-  //@JoinColumn(name = "member")
+  private List<ChattingRoom> chrooms;
+  
+  @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
   private List<LikeHate> likehates;
   
   @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
-  //@JoinColumn(name = "member")
   private List<DailyNews> dailynews;
 }

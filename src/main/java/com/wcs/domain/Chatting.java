@@ -13,6 +13,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -35,10 +37,11 @@ public class Chatting {
 	@UpdateTimestamp
 	private Timestamp updatedate;
 	
-	
+	@JsonIgnore
 	@ManyToOne(fetch=FetchType.LAZY)
 	private Member member;
 	
+	@JsonIgnore
 	@ManyToOne(fetch=FetchType.LAZY)
 	private ChattingRoom chroom;
 }
