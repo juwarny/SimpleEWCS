@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
@@ -48,11 +49,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 		.antMatchers("/member/signup").permitAll().anyRequest().permitAll();
 		
-//		http.authorizeRequests().antMatchers("/static/**").permitAll();
-
-//		 http.formLogin();
+		http.authorizeRequests()
+		.antMatchers("/member/signUpResult").permitAll().anyRequest().permitAll();
+		
 		http.formLogin()
-		.loginPage("/signin").successHandler(new LoginSuccessHandler());
+		.loginPage("/signin").successHandler(successHandler());
 		
 		
 		http.exceptionHandling().accessDeniedPage("/accessDenied");
@@ -89,9 +90,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	}
 	
-//	@Override
-//    public void configure(WebSecurity web) throws Exception {
-//        web.ignoring().antMatchers("/resources/static/**").anyRequest();
-//    }
-
+	@Bean
+	public AuthenticationSuccessHandler successHandler() {
+	    return new LoginSuccessHandler("/main");
+	}
 }

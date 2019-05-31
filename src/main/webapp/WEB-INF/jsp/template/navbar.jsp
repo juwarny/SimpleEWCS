@@ -27,7 +27,7 @@
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li>
-						<button type="button" class="btn btn-default navbar-btn">
+						<button id="login-btn" type="button" class="btn btn-default navbar-btn">
 							<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
 						</button>
 					</li>
@@ -37,26 +37,45 @@
 	</nav>
 </header>
 <!-- TradingView Widget BEGIN -->
+ <!-- TradingView Widget BEGIN -->
 <div class="tradingview-widget-container">
-  <div id="tradingview_d3c8d"></div>
-  <div class="tradingview-widget-copyright">TradingView 제공 <a href="https://kr.tradingview.com/symbols/NASDAQ-AAPL/" rel="noopener" target="_blank"><span class="blue-text">AAPL 차트</span></a></div>
-  <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
-  <script type="text/javascript">
-  new TradingView.widget(
+  <div class="tradingview-widget-container__widget"></div>
+  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
   {
-  "autosize": true,
-  "symbol": "NASDAQ:AAPL",
-  "interval": "D",
-  "timezone": "Etc/UTC",
-  "theme": "Light",
-  "style": "1",
-  "locale": "kr",
-  "toolbar_bg": "#f1f3f6",
-  "enable_publishing": false,
-  "allow_symbol_change": true,
-  "container_id": "tradingview_d3c8d"
+  "symbols": [
+    {
+      "title": "S&P 500",
+      "proName": "OANDA:SPX500USD"
+    },
+    {
+      "title": "상하이 컴포지트",
+      "proName": "INDEX:XLY0"
+    },
+    {
+      "title": "EUR/USD",
+      "proName": "FX_IDC:EURUSD"
+    },
+    {
+      "title": "BTC/USD",
+      "proName": "BITSTAMP:BTCUSD"
+    },
+    {
+      "title": "ETH/USD",
+      "proName": "BITSTAMP:ETHUSD"
+    }
+  ],
+  "colorTheme": "light",
+  "isTransparent": false,
+  "displayMode": "adaptive",
+  "locale": "kr"
 }
-  );
   </script>
 </div>
 <!-- TradingView Widget END -->
+<script type="text/javascript">
+  $(document).ready(function(){
+		$("#login-btn").click(function(){			
+			$(location).attr('href', '<c:out value="${url}signin"/>');			
+		});
+	});	
+ </script>

@@ -45,8 +45,11 @@ public class MemberController {
 
     repo.save(member);
 
-    return "/member/signUpResult";
+    return "redirect:/member/signUpResult";
   }
-
-
+  
+  @GetMapping("/signUpResult")
+  public void signResult(@ModelAttribute("member") Member member){
+    
+  }
 }

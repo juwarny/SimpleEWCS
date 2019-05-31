@@ -20,13 +20,33 @@
 		<tbody>
 			<c:forEach var="item" items="${news}">
 				<tr class="odd gradeX">
-					<td><a href="${item.href}">${item.headline}</a></td>
+					<td><a href="${item.href}" target="_blank">${item.headline}</a></td>
 					<td>${item.pretxt}</td>
 					<td>${item.office}</td>
 				</tr>
 			</c:forEach>
 		</tbody>
 	</table>
+	<div>
+		<ul class="pagination">
+						
+						<c:if test="${not empty prevDate}">
+							<c:url value='./dnlist' var="url">
+								<c:param name="date" value="${prevDate}"/>
+							</c:url>
+							<li class="page-item">
+							<a href="${url}">${prevDate}</a></li>
+						</c:if>
+							<li class="page-item"><a>${date}</a></li>
+						<c:if test="${not empty nextDate}">
+							<c:url value='./dnlist' var="url">
+								<c:param name="date" value="${nextDate}"/>
+							</c:url>
+							<li class="page-item">
+							<a href="${url}">${nextDate}</a></li>
+						</c:if>
+					</ul>
+	</div>
 	<jsp:include page="/WEB-INF/jsp/template/footer.jsp"></jsp:include>
 </body>
 </html>
