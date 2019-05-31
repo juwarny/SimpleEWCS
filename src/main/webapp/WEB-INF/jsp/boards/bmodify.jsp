@@ -36,7 +36,7 @@
 			<input type='hidden' name="size" value="${pageVO.size}"> 
 			<input type='hidden' name="type" value="${pageVO.type}"> 
 			<input type='hidden' name="keyword" value="${pageVO.keyword}">
-			<input type='hidden' name="keyword" value="${pageVO.cno}">
+			<input type='hidden' name="cno" value="${pageVO.cno}">
 			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 
 		</form>

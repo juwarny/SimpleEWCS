@@ -37,10 +37,11 @@
 	</nav>
 </header>
 <!-- TradingView Widget BEGIN -->
- <!-- TradingView Widget BEGIN -->
-<div class="tradingview-widget-container">
-  <div class="tradingview-widget-container__widget"></div>
-  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+
+	<div class="tradingview-widget-container">
+	  <div class="tradingview-widget-container__widget"></div>  
+	</div>
+<script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
   {
   "symbols": [
     {
@@ -70,7 +71,6 @@
   "locale": "kr"
 }
   </script>
-</div>
 <!-- TradingView Widget END -->
 <script type="text/javascript">
   $(document).ready(function(){

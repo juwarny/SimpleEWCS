@@ -5,6 +5,11 @@
 <html>
 <head>
 <jsp:include page="/WEB-INF/jsp/template/header.jsp"></jsp:include>
+<style type="text/css">
+	a[disabled="disabled"] {
+        pointer-events: none;
+    }
+</style>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/jsp/template/navbar.jsp"></jsp:include>
@@ -21,7 +26,7 @@
 			<c:forEach var="item" items="${news}">
 				<tr class="odd gradeX">
 					<td><a href="${item.href}" target="_blank">${item.headline}</a></td>
-					<td>${item.pretxt}</td>
+					<td><c:out value="${item.pretxt}"></c:out></td>
 					<td>${item.office}</td>
 				</tr>
 			</c:forEach>
@@ -37,7 +42,7 @@
 							<li class="page-item">
 							<a href="${url}">${prevDate}</a></li>
 						</c:if>
-							<li class="page-item"><a>${date}</a></li>
+							<li class="page-item"><a disabled="disabled">${date}</a></li>
 						<c:if test="${not empty nextDate}">
 							<c:url value='./dnlist' var="url">
 								<c:param name="date" value="${nextDate}"/>

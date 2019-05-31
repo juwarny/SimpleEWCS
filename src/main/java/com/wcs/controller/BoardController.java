@@ -98,7 +98,7 @@ public class BoardController {
 	
 	@Secured(value={"ROLE_BASIC","ROLE_MANAGER","ROLE_ADMIN"})
 	@PostMapping("/bmodify")
-	public String modifyPost(Board board, PageVO vo, RedirectAttributes rttr ){
+	public String modifyPost(Board board, @ModelAttribute("pageVO") PageVO vo, RedirectAttributes rttr ){
 		
 		log.info("Modify Board: " + board);
 		
@@ -117,7 +117,7 @@ public class BoardController {
 		rttr.addAttribute("size", vo.getSize());
 		rttr.addAttribute("type", vo.getType());
 		rttr.addAttribute("keyword", vo.getKeyword());
-		rttr.addAttribute("catno", vo.getCno());
+		rttr.addAttribute("cno", vo.getCno());
 
 		return "redirect:/boards/bview";
 	}
@@ -137,6 +137,7 @@ public class BoardController {
 		rttr.addAttribute("size", vo.getSize());
 		rttr.addAttribute("type", vo.getType());
 		rttr.addAttribute("keyword", vo.getKeyword());
+		rttr.addAttribute("cno", vo.getCno());
 
 		return "redirect:/boards/blist";
 	}
