@@ -31,10 +31,10 @@
 				<!-- chr.chrno, chr.title, m.count(), chr.regdate -->
 					<c:forEach items="${res.content}" var="arr">
 						<tr class="odd gradeX">
-							<td><a href='${arr[0]}' class='boardLink'>${arr[1]}</a> <span
-								class="badge">${arr[2]}</span></td>
-							<td>${arr[3]}</td>
-							<fmt:formatDate value="${arr[4]}" var="formattedDate" type="date" pattern="yyyy-MM-dd"/>
+							<td><a href='${arr[0]}' class='boardLink'>${arr[1]}</a> <%-- <span
+								class="badge">${arr[2]}</span> --%></td>
+							<td>${arr[2]}</td>
+							<fmt:formatDate value="${arr[3]}" var="formattedDate" type="date" pattern="yyyy-MM-dd"/>
 							<td class="center">${formattedDate}</td>
 						</tr>
 					</c:forEach>
@@ -121,7 +121,7 @@
 
 												var chroomNo = $(this).attr("href");
 
-												formObj.attr("action", "./chview");
+												formObj.attr("action", "./chroom");
 												formObj.append("<input type='hidden' name='chrno' value='" + chroomNo +"'>");
 
 												formObj.submit();

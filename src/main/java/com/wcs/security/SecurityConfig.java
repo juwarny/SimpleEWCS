@@ -43,8 +43,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers("/*.js").permitAll()
 		.antMatchers("/*.css").permitAll()
 		.antMatchers("/boards/blist").hasAnyRole("BASIC", "MANAGER", "ADMIN")
-		.antMatchers("/boards/bregister")
-		.hasAnyRole("BASIC", "MANAGER", "ADMIN");
+		.antMatchers("/boards/bregister").hasAnyRole("BASIC", "MANAGER", "ADMIN")
+		.antMatchers("/chrooms/**").hasAnyRole("BASIC", "MANAGER", "ADMIN");
 		
 		http.authorizeRequests()
 		.antMatchers("/member/signup").permitAll().anyRequest().permitAll();

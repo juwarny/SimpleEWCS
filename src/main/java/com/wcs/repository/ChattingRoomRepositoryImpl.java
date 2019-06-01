@@ -47,15 +47,19 @@ public class ChattingRoomRepositoryImpl extends QueryDslRepositorySupport implem
 		
 		JPQLQuery<ChattingRoom> query = from(chr);
 		
-		JPQLQuery<Tuple> tuple = query.select(chr.chrno, chr.title, m.count(), chr.member.uid,  chr.regdate);
-		tuple.join(chr.chats, ch);
-		tuple.join(ch.member, m);
+		JPQLQuery<Tuple> tuple = query.select(chr.chrno, chr.title, chr.member.uid,  chr.regdate);
+//m.count()
+//		tuple.leftJoin(chr.chats, ch);
+//		tuple.leftJoin(ch.member, m);
 		
 		tuple.where(chr.chrno.gt(0L));
-		tuple.where(chr.title.like("%" + keyword +"%"));
+		
+		if(keyword!=null) {
+			tuple.where(chr.title.like("%" + keyword +"%"));
+		}
 
-		tuple.groupBy(chr.chrno);
-		tuple.orderBy(chr.chrno.desc());
+//		tuple.groupBy(chr.chrno);
+//		tuple.orderBy(chr.chrno.desc());
 
 		tuple.offset(page.getOffset());
 		tuple.limit(page.getPageSize());

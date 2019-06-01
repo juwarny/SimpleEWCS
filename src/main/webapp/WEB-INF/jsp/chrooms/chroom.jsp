@@ -12,7 +12,6 @@
     <link href="${url}static/css/main.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.3.0/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-    <script src="${url}static/js/app.js"></script>
     <meta name="_csrf" content="${_csrf.token}"/>
 	<meta name="_csrf_header" content="${_csrf.headerName}"/>
 	<sec:authentication var="principal" property="principal"/>
@@ -78,7 +77,42 @@
 	</div>
 	
 	<!--  start chat -->
-	
+	<div id="main-content" class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <form class="form-inline">
+                <div class="form-group">
+                    <label for="connect">채팅 연결</label>
+                    <button id="connect" class="btn btn-default" type="submit">참여하기</button>
+                    <button id="disconnect" class="btn btn-default" type="submit" disabled="disabled">방나가기</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <form class="form-inline">
+                <div class="form-group">
+                    <label for="send-message">메시지를 보내세요</label>
+                    <input type="text" id="send-message" class="form-control" placeholder="message here...">
+                </div>
+                <button id="send" class="btn btn-default" type="submit">Send</button>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <table id="conversation" class="table table-striped">
+                <thead>
+                <tr>
+                    <th>uid</th>
+                    <th>message</th>
+                </tr>
+                </thead>
+                <tbody id="received-message">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 	<c:url value='/' var="url3"/>
 	<script type="text/javascript" src="${url3}static/js/chatapp.js"></script>	
 	<jsp:include page="/WEB-INF/jsp/template/footer.jsp"></jsp:include>

@@ -21,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.wcs.domain.Board;
 import com.wcs.domain.Category;
+import com.wcs.domain.ChattingRoom;
 import com.wcs.domain.Member;
 import com.wcs.repository.BoardRepository;
 import com.wcs.repository.BoardRepositoryCustom;
@@ -44,106 +45,85 @@ public class ChatRoomController {
 	@Autowired
 	private ChattingRoomRepository chrepo;
 	
-//	@GetMapping("/topic")
-//	public void topicGET(@ModelAttribute("vo")Category vo, Model model) {
-//		log.info("---------------topic get");
-//		List<Object[]> resultOfCategory = catrepo.getCategoryNamesAndBoardsCount();
-//		model.addAttribute("result", resultOfCategory);
-//	}
-//	
-//	
-//	
-//	@GetMapping("/bregister")
-//	public void registerGET(Long cno, @ModelAttribute("vo")Board vo ){
-//		log.info("register get");
-//		vo.setTitle("샘플 게시물 제목입니다....");
-//		vo.setContent("내용을 처리해 봅니다 " );
-//		vo.setCategory(new Category());
-//		vo.getCategory().setCno(cno);
-//		//TODO: 다시 만들어볼 것
-////		Member member = new Member();
-////		member.setUid("user00");
-////		vo.setMember(member);
-//	}
-//	
-//	@PostMapping("/bregister")
-//	public String registerPOST(@ModelAttribute("vo")Board vo, RedirectAttributes rttr){
-//		
-//		log.info("register post");
-//		log.info("" + vo);
-////		vo.getCategory().setCno(cno);
-//		brepo.save(vo);
-//		
-//		rttr.addFlashAttribute("msg", "success");
-//		rttr.addAttribute("cno", vo.getCategory().getCno());
-//		
-//		return "redirect:/boards/blist";
-//	}
-//	
-//	@GetMapping("/bview")
-//	public void view(Long bno, @ModelAttribute("pageVO") PageVO vo, Model model){
-//		
-//		log.info("BNO: "+ bno);
-//		
-//		Optional.ofNullable(brepo.findOne(bno)).ifPresent(board -> model.addAttribute("vo", board));
-//		
-//	}
-//	
-//	@Secured(value={"ROLE_BASIC","ROLE_MANAGER","ROLE_ADMIN"})
-//	@GetMapping("/bmodify")
-//	public void modify(Long bno, @ModelAttribute("pageVO") PageVO vo, Model model){
-//		
-//		log.info("MODIFY BNO: "+ bno);
-//		
-//		Optional.ofNullable(brepo.findOne(bno)).ifPresent(board -> model.addAttribute("vo", board));
-//	}
-//	
-//	@Secured(value={"ROLE_BASIC","ROLE_MANAGER","ROLE_ADMIN"})
-//	@PostMapping("/bmodify")
-//	public String modifyPost(Board board, @ModelAttribute("pageVO") PageVO vo, RedirectAttributes rttr ){
-//		
-//		log.info("Modify Board: " + board);
-//		
-//		Optional.ofNullable(brepo.findOne(board.getBno())).ifPresent( origin ->{
-//		 
-//			origin.setTitle(board.getTitle());
-//			origin.setContent(board.getContent());
-//			
-//			brepo.save(origin);
-//			rttr.addFlashAttribute("msg", "success");
-//			rttr.addAttribute("bno", origin.getBno());
-//		});
-//		
-//		//페이징과 검색했던 결과로 이동하는 경우 
-//		rttr.addAttribute("page", vo.getPage());
-//		rttr.addAttribute("size", vo.getSize());
-//		rttr.addAttribute("type", vo.getType());
-//		rttr.addAttribute("keyword", vo.getKeyword());
-//		rttr.addAttribute("cno", vo.getCno());
-//
-//		return "redirect:/boards/bview";
-//	}
-//	
-//	@Secured(value={"ROLE_BASIC","ROLE_MANAGER","ROLE_ADMIN"})
-//	@PostMapping("/delete")
-//	public String delete(Long bno, PageVO vo, RedirectAttributes rttr ){
-//		
-//		log.info("DELETE BNO: " + bno);
-//		
-//		brepo.delete(bno);
-//		
-//		rttr.addFlashAttribute("msg", "success");
-//
-//		//페이징과 검색했던 결과로 이동하는 경우 
-//		rttr.addAttribute("page", vo.getPage());
-//		rttr.addAttribute("size", vo.getSize());
-//		rttr.addAttribute("type", vo.getType());
-//		rttr.addAttribute("keyword", vo.getKeyword());
-//		rttr.addAttribute("cno", vo.getCno());
-//
-//		return "redirect:/boards/blist";
-//	}
-//	
+
+
+	@GetMapping("/chregister")
+	public void registerGET(@ModelAttribute("vo")ChattingRoom vo ){
+		log.info("register get");
+		vo.setTitle("샘플 채팅방 제목입니다....");
+	}
+	
+	@PostMapping("/chregister")
+	public String registerPOST(@ModelAttribute("vo")ChattingRoom vo, RedirectAttributes rttr){
+		
+		log.info("chregister post");
+		log.info("" + vo);
+		chrepo.save(vo);
+		
+		rttr.addFlashAttribute("msg", "success");
+		
+		return "redirect:/chrooms/chlist";
+	}
+	
+	@GetMapping("/chroom")
+	public void view(Long chrno, @ModelAttribute("pageVO") ChPageVO vo, Model model){
+		
+		log.info("chrno: "+ chrno);
+		
+		Optional.ofNullable(chrepo.findOne(chrno)).ifPresent(chroom -> model.addAttribute("vo", chroom));
+		
+	}
+	
+	@Secured(value={"ROLE_BASIC","ROLE_MANAGER","ROLE_ADMIN"})
+	@GetMapping("/chmodify")
+	public void modify(Long chrno, @ModelAttribute("pageVO") ChPageVO vo, Model model){
+		
+		log.info("MODIFY chrno: "+ chrno);
+		
+		Optional.ofNullable(chrepo.findOne(chrno)).ifPresent(chroom -> model.addAttribute("vo", chroom));
+	}
+	
+	@Secured(value={"ROLE_BASIC","ROLE_MANAGER","ROLE_ADMIN"})
+	@PostMapping("/chmodify")
+	public String modifyPost(ChattingRoom chroom, @ModelAttribute("pageVO") ChPageVO vo, RedirectAttributes rttr ){
+		
+		log.info("Modify chroom: " + chroom);
+		
+		Optional.ofNullable(chrepo.findOne(chroom.getChrno())).ifPresent( origin ->{
+		 
+			origin.setTitle(chroom.getTitle());
+			
+			chrepo.save(origin);
+			rttr.addFlashAttribute("msg", "success");
+			rttr.addAttribute("chrno", origin.getChrno());
+		});
+		
+		//페이징과 검색했던 결과로 이동하는 경우 
+		rttr.addAttribute("page", vo.getPage());
+		rttr.addAttribute("size", vo.getSize());
+		rttr.addAttribute("keyword", vo.getKeyword());
+
+		return "redirect:/chrooms/chroom";
+	}
+	
+	@Secured(value={"ROLE_BASIC","ROLE_MANAGER","ROLE_ADMIN"})
+	@PostMapping("/delete")
+	public String delete(Long chrno, ChPageVO vo, RedirectAttributes rttr ){
+		
+		log.info("DELETE BNO: " + chrno);
+		
+		chrepo.delete(chrno);
+		
+		rttr.addFlashAttribute("msg", "success");
+
+		//페이징과 검색했던 결과로 이동하는 경우 
+		rttr.addAttribute("page", vo.getPage());
+		rttr.addAttribute("size", vo.getSize());
+		rttr.addAttribute("keyword", vo.getKeyword());
+
+		return "redirect:/chrooms/chlist";
+	}
+	
 	
 	@GetMapping("/chlist")
 	@Transactional
