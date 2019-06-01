@@ -160,6 +160,9 @@
 	  var token = $("meta[name='_csrf']").attr("content");
       var headerName = $("meta[name='_csrf_header']").attr("content");
 	  var csrf = {token: token, headerName: headerName};
+	  
+	  $("#like").css('background-color', 'green');
+	  $("#hate").css('background-color', 'green');
 ///////////////////////////////////////////////////////////////////////////likehate
 function getCountLikeHate(){
 
@@ -217,6 +220,7 @@ function printCountLH(list){
           alert("좋아요가 수정되었습니다. ")
           afterLHAll(list);
           $("#like").css('background-color', 'green');
+          $("#hate").css('background-color', 'grey');
         });
 
       }else{//삭제
@@ -254,6 +258,7 @@ function printCountLH(list){
           alert("싫어요가 수정되었습니다. ")
           afterLHAll(list);
           $("#hate").css('background-color', 'red');
+          $("#like").css('background-color', 'grey');
         });
 
       }else{//삭제
