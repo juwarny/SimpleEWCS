@@ -30,7 +30,7 @@ public class Chatting {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long chtno;
-	private String title;
+	private String context;
 
 	@CreationTimestamp
 	private Timestamp regdate;
