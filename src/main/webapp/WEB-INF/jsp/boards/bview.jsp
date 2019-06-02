@@ -161,8 +161,8 @@
       var headerName = $("meta[name='_csrf_header']").attr("content");
 	  var csrf = {token: token, headerName: headerName};
 	  
-	  $("#like").css('background-color', 'green');
-	  $("#hate").css('background-color', 'green');
+	  $("#like").css('background-color', 'grey');
+	  $("#hate").css('background-color', 'grey');
 ///////////////////////////////////////////////////////////////////////////likehate
 function getCountLikeHate(){
 
