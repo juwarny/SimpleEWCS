@@ -1,11 +1,17 @@
 var stompClient = null;
 
+
+var uid = $("meta[name='uid']").attr("content");
+var chrno = $("meta[name='chrno']").attr("content");
+
 const SERVER_SOCKET_API = "/wcs-real-chatting";
 const DESTINATION_PREFIXS = "/chatapp";
 const BROKER = "/realtime";
 const MAPPING_NAME = "/chat";
-const SEND_TO = "/realtime/message";
+const SEND_TO = "/realtime/"+chrno;
 const ENTER_KEY = 13;
+
+
 
 function setConnected(connected) {
     $("#connect").prop("disabled", connected);
@@ -41,9 +47,9 @@ function disconnect() {
 
 function sendMessage() {
 	var message = {
-			uid: $("meta[name='uid']").attr("content"),
+			uid: uid,
 			context: $("#send-message").val(),
-			chrno: $("meta[name='chrno']").attr("content"),
+			chrno: chrno,
 			chtno: null
 	}
     stompClient.send(DESTINATION_PREFIXS + MAPPING_NAME, {}, JSON.stringify(message));
@@ -59,7 +65,7 @@ function showMessage(message) {
 function chatKeyDownHandler(e){
 	if(e.which === ENTER_KEY && $.trim($("#send-message").val()) !== ""){
 		sendMessage();
-		clear($("#send-message"));
+		$("#send-message").val("");
 	}
 }
 
