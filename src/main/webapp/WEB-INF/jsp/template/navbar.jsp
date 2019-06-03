@@ -19,7 +19,7 @@
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav nav-pills">
 					<c:url value='/' var="url"/>
-					<li><a href="${url}main">Home</a></li>
+					<li><a href="${url}index">Home</a></li>
 					<li><a href="${url}chrooms/chlist">채팅 토론</a></li>
 					<li><a href="${url}boards/topic">토픽 게시판</a></li>
 					<li><a href="#">UP&Down</a></li>

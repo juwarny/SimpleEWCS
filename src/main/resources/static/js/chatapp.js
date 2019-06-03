@@ -3,8 +3,9 @@ var stompClient = null;
 
 var uid = $("meta[name='uid']").attr("content");
 var chrno = $("meta[name='chrno']").attr("content");
+var root = $("meta[name='root']").attr("content");
 
-const SERVER_SOCKET_API = "/wcs-real-chatting";
+const SERVER_SOCKET_API = root+"wcs-real-chatting";
 const DESTINATION_PREFIXS = "/chatapp";
 const BROKER = "/realtime";
 const MAPPING_NAME = "/chat";

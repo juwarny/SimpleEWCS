@@ -200,7 +200,7 @@ function printCountLH(list){
       if(uid == null){
         if(confirm("로그인 할까요?")){
         //TODO: 수정이 필요 login 패스 나중에 수정해야됨
-          self.location = "../login"+"?dest=" + encodeURIComponent(self.location);
+          self.location = "../signin"+"?dest=" + encodeURIComponent(self.location);
         }
         return;
       }
@@ -238,7 +238,7 @@ function printCountLH(list){
       if(uid == null){
         if(confirm("로그인 할까요?")){
         //TODO: 수정이 필요 login 패스 나중에 수정해야됨
-          self.location = "../login"+"?dest=" + encodeURIComponent(self.location);
+          self.location = "../signin"+"?dest=" + encodeURIComponent(self.location);
         }
         return;
       }
@@ -281,7 +281,7 @@ function printCountLH(list){
 		  if(uid == null){
 			  if(confirm("로그인 할까요?")){
 				//TODO: 수정이 필요 login 패스 나중에 수정해야됨
-				  self.location = "../login"+"?dest=" + encodeURIComponent(self.location);
+				  self.location = "../signin"+"?dest=" + encodeURIComponent(self.location);
 			  }
 			  return;
 		  }

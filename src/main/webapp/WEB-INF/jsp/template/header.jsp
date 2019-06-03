@@ -14,8 +14,9 @@
 		      bottom:0;
 		    }
 		  </style>
-		  <c:url value='/' var="url"/>
-<script src="${url}static/js/vendor/modernizr-2.8.3.min.js"></script>
-<script src="${url}static/js/vendor/jquery-1.12.0.min.js"></script>
+		  <c:url value='/' var="root"/>
+<script src="${root}static/js/vendor/modernizr-2.8.3.min.js"></script>
+<script src="${root}static/js/vendor/jquery-1.12.0.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<meta name="root" content="${root}"/>
 </head>

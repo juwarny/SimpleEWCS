@@ -18,10 +18,20 @@
 	<description>Web Project</description>
 
 	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
+		<tomcat.version>7.0.64</tomcat.version>
+   		<servlet-api.version>3.0.1</servlet-api.version>
 	</properties>
 
 	<dependencies>
+		<dependency>
+	        <groupId>org.apache.tomcat</groupId>
+	        <artifactId>tomcat-juli</artifactId>
+	        <version>${tomcat.version}</version>
+	        <!-- <scope>runtime</scope> -->
+	    </dependency>
 		<dependency>
          <groupId>org.springframework.boot</groupId>
          <artifactId>spring-boot-starter-websocket</artifactId>
@@ -60,6 +70,7 @@
 		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
 			<artifactId>tomcat-embed-jasper</artifactId>
+			<version>${tomcat.version}</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.jsoup/jsoup -->
 		<dependency>
@@ -106,11 +117,11 @@
 			<version>1.16.0</version>
 			<optional>true</optional>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
 			<scope>provided</scope>
-		</dependency>
+		</dependency> -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
