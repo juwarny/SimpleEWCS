@@ -38,7 +38,7 @@ public class LikeHateController {
 	
 	
 	@GetMapping("/{bno}")
-	public ResponseEntity<List<LikeHateVO>> getReplies(
+	public ResponseEntity<List<LikeHateVO>> getLikeHate(
 			@PathVariable("bno")Long bno){
 	
 		log.info("get All Replies..........................");

@@ -42,8 +42,7 @@
 			</table>
 
 			<div>
-				<select id='searchType'>
-				</select> <input type='text' id='searchKeyword' value="${pageVO.keyword}">
+				<input type='text' id='searchKeyword' value="${pageVO.keyword}">
 				<button id='searchBtn'>Search</button>
 			</div>
 
@@ -133,7 +132,7 @@
 										var keywordStr = $("#searchKeyword")
 												.val();
 
-										console.log(typeStr, "", keywordStr);
+										//console.log(typeStr, "", keywordStr);
 
 										formObj.find("[name='keyword']").val(keywordStr);
 										formObj.find("[name='page']").val("1");
