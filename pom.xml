@@ -26,6 +26,11 @@
 	</properties>
 
 	<dependencies>
+		<dependency>
+    		<groupId>com.opencsv</groupId>
+   			<artifactId>opencsv</artifactId>
+    		<version>4.6</version>
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/com.yahoofinance-api/YahooFinanceAPI -->
 		<dependency>
 		    <groupId>com.yahoofinance-api</groupId>

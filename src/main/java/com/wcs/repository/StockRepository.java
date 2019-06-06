@@ -16,7 +16,7 @@ import com.wcs.domain.KoreaStock;
 import com.wcs.domain.QBoard;
 
 public interface StockRepository extends CrudRepository<KoreaStock, String>{
-	@Query("SELECT s FROM KoreaStock s WHERE s.symbol LIKE ?1% ORDER BY c.chtno ASC")
+	@Query("SELECT s FROM KoreaStock s WHERE s.symbol LIKE ?1% ORDER BY s.symbol ASC")
 	public List<KoreaStock> getStocksBySymbol(String symbol);
 }
 

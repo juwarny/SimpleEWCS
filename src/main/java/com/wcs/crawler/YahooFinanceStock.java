@@ -20,24 +20,8 @@ public class YahooFinanceStock {
 		Calendar from = Calendar.getInstance();
 		Calendar to = Calendar.getInstance();
 		from.add(Calendar.YEAR, -1); // from 1 year ago
-		
 		List<HistoricalQuote> result = st.getHistory(from, to, Interval.DAILY);
 		
 		return result;
 	}
-//	public static void main(String[] args) throws IOException {
-//		Stock google = YahooFinance.get("095570.KS");
-//		Stock g = YahooFinance.get("095570.KS");
-//		
-//		log.info(g.getName());
-//		Calendar from = Calendar.getInstance();
-//		Calendar to = Calendar.getInstance();
-//		from.add(Calendar.YEAR, -1); // from 1 year ago
-//		 
-//		List<HistoricalQuote> googleHistQuotes = google.getHistory(from, to, Interval.DAILY);
-//		
-//		googleHistQuotes.forEach(a->{
-//			log.info(a.toString());
-//		});
-//	}
 }
