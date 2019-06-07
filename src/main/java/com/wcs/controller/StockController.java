@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.common.collect.Lists;
 import com.wcs.crawler.YahooFinanceStock;
 import com.wcs.domain.Board;
 import com.wcs.domain.KoreaStock;
@@ -39,6 +40,16 @@ public class StockController {
 	private StockRepository repo;
 	
 	private YahooFinanceStock yf;
+	
+	@Secured(value={"ROLE_BASIC","ROLE_MANAGER","ROLE_ADMIN"})
+	@GetMapping("/stocklist")
+	public ResponseEntity<List<KoreaStock>> getAllStocksList(){
+	
+		log.info("get All Stocks..........................");
+		List<KoreaStock> result = Lists.newArrayList(repo.findAll());
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
 	
 	@Secured(value={"ROLE_BASIC","ROLE_MANAGER","ROLE_ADMIN"})
 	@GetMapping("/symbol/{symbol}")

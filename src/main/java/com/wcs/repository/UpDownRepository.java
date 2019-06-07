@@ -23,7 +23,7 @@ import com.wcs.domain.UpDown;
 public interface UpDownRepository extends CrudRepository<UpDown, Long>{
 	
 	@Query("SELECT COUNT(u), AVG(u.opinion) FROM UpDown u WHERE u.stock = ?1 And u.updatedate > ?2")
-	public List<Object[]> getAvgAndCountOfUpDownsByStockCode(KoreaStock stock, Timestamp today);
+	public Object[] getAvgAndCountOfUpDownsByStockCode(KoreaStock stock, Timestamp today);
 	
 	public UpDown findByMemberAndStock(Member member, KoreaStock stock);
 }

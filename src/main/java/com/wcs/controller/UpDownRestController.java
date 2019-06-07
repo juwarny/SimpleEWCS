@@ -33,6 +33,7 @@ import com.wcs.repository.ReplyRepository;
 import com.wcs.repository.StockRepository;
 import com.wcs.repository.UpDownRepository;
 import com.wcs.vo.ReplyVO;
+import com.wcs.vo.UpDownVO;
 
 import lombok.extern.java.Log;
 
@@ -51,7 +52,7 @@ public class UpDownRestController {
 	private MemberRepository mRepo;
 	
 	@GetMapping("/{stcode}")
-	public ResponseEntity<List<Object[]>> getAvgAndCount(
+	public ResponseEntity<Object[]> getAvgAndCount(
 			@PathVariable("stcode")String stcode){
 	
 		log.info("get Avg and Count updowns..........................");
@@ -63,7 +64,7 @@ public class UpDownRestController {
 	}
 	
 	@GetMapping("/{stcode}/{uid}")
-	public ResponseEntity<UpDown> getUpdownOfUser(
+	public ResponseEntity<UpDownVO> getUpdownOfUser(
 			@PathVariable("stcode")String stcode, @PathVariable("uid")String uid){
 	
 		log.info("get Avg and Count updowns..........................");
@@ -73,7 +74,17 @@ public class UpDownRestController {
 		
 		UpDown updown = upRepo.findByMemberAndStock(member, stock);
 		
-		return new ResponseEntity<>(updown, HttpStatus.OK);
+		UpDownVO vo = new UpDownVO();
+		
+		vo.setOpinion(updown.getOpinion());
+		vo.setRegdate(updown.getRegdate());
+		vo.setUpdatedate(updown.getUpdatedate());
+		vo.setUid(uid);
+		vo.setStcode(stcode);
+		vo.setUpno(updown.getUpno());
+		
+		
+		return new ResponseEntity<>(vo, HttpStatus.OK);
 	}
 	
 	
@@ -81,18 +92,24 @@ public class UpDownRestController {
 	@Secured(value={"ROLE_BASIC","ROLE_MANAGER","ROLE_ADMIN"})
 	@Transactional
 	@PostMapping("/{stcode}/{uid}")
-	public ResponseEntity<List<Object[]>> addUpDown(
+	public ResponseEntity<Object[]> addUpDown(
 			@PathVariable("stcode")String stcode, @PathVariable("uid")String uid, 
-			@RequestBody UpDown updown){
+			@RequestBody UpDownVO vo){
 
 		log.info("addupdown..........................");
 		log.info("BNO: " + stcode);
-		log.info("updown: " + updown);
+		log.info("updown: " + vo);
 		
+		UpDown updown = new UpDown();
 		Member member = new Member();
 		member.setUid(uid);
 		updown.setMember(member);
 		
+		updown.setOpinion(vo.getOpinion());
+		KoreaStock st = new KoreaStock();
+		st.setStcode(stcode);
+		
+		updown.setStock(st);
 		upRepo.save(updown);
 		
 		KoreaStock stock = stRepo.findOne(stcode);
@@ -104,17 +121,19 @@ public class UpDownRestController {
 	@Secured(value={"ROLE_BASIC","ROLE_MANAGER","ROLE_ADMIN"})
 	@Transactional
 	@PutMapping("/{stcode}/{upno}")
-	public ResponseEntity<List<Object[]>> modifyUpDown(
+	public ResponseEntity<Object[]> modifyUpDown(
 			@PathVariable("stcode")String stcode, @PathVariable("upno")Long upno, 
-			@RequestBody UpDown updown){
+			@RequestBody UpDownVO vo){
 
 		log.info("addupdown..........................");
 		log.info("BNO: " + stcode);
-		log.info("updown: " + updown);
+		log.info("updown: " + vo);
 		
 		Optional.ofNullable(upRepo.findOne(upno)).ifPresent(origin->{
-			origin.setMember(updown.getMember());
-			origin.setOpinion(updown.getOpinion());
+			Member member = new Member();
+			member.setUid(vo.getUid());
+			origin.setMember(member);
+			origin.setOpinion(vo.getOpinion());
 			upRepo.save(origin);
 		});
 		
@@ -123,7 +142,7 @@ public class UpDownRestController {
 		return new ResponseEntity<>(getAvgAndCount(stock), HttpStatus.CREATED);
 	}
 	
-	private List<Object[]> getAvgAndCount(KoreaStock stock)throws RuntimeException{
+	private Object[] getAvgAndCount(KoreaStock stock)throws RuntimeException{
 		
 		Date date = new Date();
 		
@@ -131,31 +150,10 @@ public class UpDownRestController {
 		cal.setTime(date); 
 		cal.add(Calendar.DATE, -7);
 	
-		List<Object[]> result = upRepo.getAvgAndCountOfUpDownsByStockCode(stock, new Timestamp(cal.getTime().getTime()));
+		Object[] result = upRepo.getAvgAndCountOfUpDownsByStockCode(stock, new Timestamp(cal.getTime().getTime()));
 		
 		return result;
 	}
-	
-	
-//	@Secured(value={"ROLE_BASIC","ROLE_MANAGER","ROLE_ADMIN"})
-//	@Transactional
-//	@DeleteMapping("/{bno}/{rno}")
-//	public ResponseEntity<List<ReplyVO>> remove(
-//			@PathVariable("bno")Long bno,
-//			@PathVariable("rno")Long rno){
-//		
-//		log.info("delete reply: "+ rno);
-//		
-//		replyRepo.delete(rno);
-//		
-//		Board board = new Board();
-//		board.setBno(bno);
-//		
-//		return  new ResponseEntity<>(getListByBoard(board), HttpStatus.OK);
-//		
-//	}
-//	
-//	
 }
 
 
