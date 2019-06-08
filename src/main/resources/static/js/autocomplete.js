@@ -15,6 +15,11 @@ $(document).ready(function(e) {
 		csrf:csrf
 	  };
 	  
+	  var listgroup = $("#stock-info-result");
+	  listgroup.hide();
+	  var loading = $("#loading");
+	  loading.hide();
+	  
   function autocomplete(inp, arr) {
     /*the autocomplete function takes two arguments,
     the text field element and an array of possible autocompleted values:*/
@@ -54,6 +59,8 @@ $(document).ready(function(e) {
             inp.value = this.getElementsByTagName("input")[0].value;
             /*close the list of autocompleted values,
             (or any other open lists of autocompleted values:*/
+            listgroup.hide();
+            loading.show();
             stockManager.getHistoryStock(code, printStockChart);
             updownManager.getAvgAndCount(code, showAvgAndCount);
             
@@ -174,20 +181,25 @@ $(document).ready(function(e) {
 
 	chart.data = list
 	
+	
   }
 	function showAvgAndCount(data){
-		if(!data[0][1]){
-			$("#count").html("0");
-			$("#avg").html("0");
+		if(data[0][1]==null){
+			$("#avg").html("<h1 class='text-center'>0점</h1>");			
+			$("#count").html("<h1 class='text-center'>0명</h1>");
 		}else{
-			$("#count").html(String(data[0][0]));
-			$("#avg").html(String(data[0][1]));
+			$("#avg").html("<h1 class='text-center'>"+String(data[0][1])+"점</h1>");
+			$("#count").html("<h1 class='text-center'>"+String(data[0][0])+"명</h1>");
 		}
+		$("#avg").append("<p class='text-center'>7일 예측점수</p>");
+		$("#count").append("<p class='text-center'>총 평가 인원</p>");
 		
 		var obj = {
         		stcode:code,
         		uid:uid
         };
+		listgroup.show();
+		loading.hide();
         updownManager.getUpdownOfUser(obj, printUserOpinion);
 	}
 

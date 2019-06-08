@@ -42,6 +42,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers("/dailynews/dnlist").permitAll()
 		.antMatchers("/*.js").permitAll()
 		.antMatchers("/*.css").permitAll()
+		.antMatchers("/*.svg").permitAll()
+		.antMatchers("/*.jpg").permitAll()
+		.antMatchers("/*.png").permitAll()
 		.antMatchers("/boards/blist").hasAnyRole("BASIC", "MANAGER", "ADMIN")
 		.antMatchers("/boards/bregister").hasAnyRole("BASIC", "MANAGER", "ADMIN")
 		.antMatchers("/chrooms/**").hasAnyRole("BASIC", "MANAGER", "ADMIN");
@@ -58,7 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		http.exceptionHandling().accessDeniedPage("/accessDenied");
 		
-		http.logout().logoutUrl("/signout").invalidateHttpSession(true);
+		http.logout().logoutUrl("/signout").logoutSuccessUrl("/index").invalidateHttpSession(true);
 
 		
 		http.rememberMe()
@@ -92,6 +95,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Bean
 	public AuthenticationSuccessHandler successHandler() {
-	    return new LoginSuccessHandler("/main");
+	    return new LoginSuccessHandler("/index");
 	}
 }

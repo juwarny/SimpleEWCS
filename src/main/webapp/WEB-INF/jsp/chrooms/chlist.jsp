@@ -9,57 +9,65 @@
 </head>
 <body>
 	<jsp:include page="/WEB-INF/jsp/template/navbar.jsp"></jsp:include>
-	<div class="panel-heading">List Page</div>
-	<div class="panel-body pull-right">
-		<h3>
-			<c:url value="./chregister" var="url"/>
-			<a class="label label-default " href="${url}">새방만들기</a>
-		</h3>
-	</div>
-	<div class="panel-body">
-		<c:set var="res" value="${result.result}"/>
-			<table class="table table-striped table-bordered table-hover"
-				id="dataTables-example">
-				<thead>
-					<tr>
-						<th>TITLE</th>
-						<th>WRITER</th>
-						<th>REGDATE</th>						
-					</tr>
-				</thead>
-				<tbody>
-				<!-- chr.chrno, chr.title, m.count(), chr.regdate -->
+	<c:set var="res" value="${result.result}"/>
+	<div class="container-fluid">
+		<div class="row justify-content-end my-4">
+			<div class="col-8 mx-auto">
+				<c:url value="./chregister" var="url"/>
+				<div class="btn-group float-right">
+					<a class="btn btn-info pull-right" href="${url}">새 채팅방</a>
+				</div>
+			</div>			
+		</div>
+		<div class="row my-4">
+			<div class="col-8 mx-auto">
+				<ul class="list-group">
 					<c:forEach items="${res.content}" var="arr">
-						<tr class="odd gradeX">
-							<td><a href='${arr[0]}' class='boardLink'>${arr[1]}</a> <%-- <span
-								class="badge">${arr[2]}</span> --%></td>
-							<td>${arr[2]}</td>
-							<fmt:formatDate value="${arr[3]}" var="formattedDate" type="date" pattern="yyyy-MM-dd"/>
-							<td class="center">${formattedDate}</td>
-						</tr>
+						<li class="list-group-item">
+							<div class="row align-items-center">
+								<div class="col-md-8">
+									<div class="card-body">
+										<h5 class="card-title">
+											<a href="${arr[0]}" class="boardLink" style="text-decoration:none;" >${arr[1]}</a>
+										</h5>
+										<p class="card-text">
+											${arr[2]}
+										</p>
+										<p class="card-text">
+											<fmt:formatDate value="${arr[3]}" var="formattedDate" type="date" pattern="yyyy-MM-dd"/>
+											<small class="text-muted ">${formattedDate}</small>
+										</p>
+									</div>
+								</div>
+							</div>
+						</li>
 					</c:forEach>
-				</tbody>
-			</table>
-
-			<div>
-				<input type='text' id='searchKeyword' value="${pageVO.keyword}">
-				<button id='searchBtn'>Search</button>
+				</ul>
 			</div>
-
-
-			<nav>
-				<div>
+		</div>
+		<div class="row justify-content-start my-4">
+			<div class="col-8 mx-auto">
+				<div class="form-inline">
+					<div class="form-group mb-2">
+						<input class="form-control" type='text' id='searchKeyword' value="${pageVO.keyword}">
+					</div>
+					<button id='searchBtn' class="btn btn-primary mb-2">Search</button>
+				</div>				
+			</div>
+		</div>
+		<div class="row my-4">
+			<div class="col-md-auto mx-auto">
+				<nav>
 					<ul class="pagination">
 						<c:if test="${not empty result.prevPage}">
-							<li class="page-item"><a
+							<li class="page-item"><a class="page-link"
 								href="${result.prevPage.pageNumber + 1} ">이전
 									${result.prevPage.pageNumber + 1}</a></li>
 						</c:if>
-
 						<c:forEach items="${result.pageList}" var="p">
 							<c:choose>
 								<c:when test="${p.pageNumber == result.currentPageNum -1}">
-									<li class="page-item active"><a href="${p.pageNumber + 1}">${p.pageNumber + 1}</a>
+									<li class="page-item active"><a class="page-link" href="${p.pageNumber + 1}">${p.pageNumber + 1}<span class="sr-only">(current)</span></a>
 									</li>
 								</c:when>
 								<c:otherwise>
@@ -69,13 +77,14 @@
 							</c:choose>
 						</c:forEach>
 						<c:if test="${not empty result.nextPage}">
-							<li class="page-item"><a
+							<li class="page-item"><a class="page-link"
 								href="${result.nextPage.pageNumber + 1}">다음
 									${result.nextPage.pageNumber + 1}</a></li>
 						</c:if>
 					</ul>
-				</div>
-			</nav>
+				</nav>
+			</div>
+		</div>
 	</div>
 
 	<form id='f1' action="./chlist" method="get">
