@@ -93,40 +93,40 @@ public class ProfileTests {
 //        }
 //
 //	}
-	
-	@Test
-	@Commit
-	@Transactional
-	public void testInsertStock2() {
-		String title = "kospi";
-		String filepath = "C://Users/USER/eclipse-workspace/201217802/src/main/resources/static/csv";
-		try{
-			int count = 0;
-			InputStreamReader is = new InputStreamReader(new FileInputStream(filepath+"/"+title+".csv"), "UTF-8");
-			CSVReader reader = new CSVReader(is);
-	        List<String[]> list = reader.readAll();
-	         
-	         for(String[] row : list){
-	        	 if(count!=0) {		               
-		               KoreaStock stock = new KoreaStock();
-		               stock.setStcode(row[1]);
-		               stock.setSymbol(row[2]);
-		               stock.setIndustrycode(row[3]);
-		               stock.setIndustry(row[4]);
-		               stock.setMarket("KS");
-		               
-		               strepo.save(stock);
-		               
-	               }
-	               count++;
-	         }    
-		}	
-		catch(IOException e){
-            System.out.println(e);
-        }
-
-	}
-	
+//	
+//	@Test
+//	@Commit
+//	@Transactional
+//	public void testInsertStock2() {
+//		String title = "kosdaq";
+//		String filepath = "C://Users/USER/eclipse-workspace/201217802/src/main/resources/static/csv";
+//		try{
+//			int count = 0;
+//			InputStreamReader is = new InputStreamReader(new FileInputStream(filepath+"/"+title+".csv"), "UTF-8");
+//			CSVReader reader = new CSVReader(is);
+//	        List<String[]> list = reader.readAll();
+//	         
+//	         for(String[] row : list){
+//	        	 if(count!=0) {		               
+//		               KoreaStock stock = new KoreaStock();
+//		               stock.setStcode(row[1]);
+//		               stock.setSymbol(row[2]);
+//		               stock.setIndustrycode(row[3]);
+//		               stock.setIndustry(row[4]);
+//		               stock.setMarket("KQ");
+//		               
+//		               strepo.save(stock);
+//		               
+//	               }
+//	               count++;
+//	         }    
+//		}	
+//		catch(IOException e){
+//            System.out.println(e);
+//        }
+//
+//	}
+//	
 //	@Test
 //	public void testInsertProfile() {
 //		Member member = new Member();

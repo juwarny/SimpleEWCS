@@ -6,8 +6,9 @@
 
 <c:url value='/' var="root" />
 <script src="${root}static/js/vendor/modernizr-2.8.3.min.js"></script>
-<script src="${root}static/js/vendor/jquery-1.12.0.min.js"></script>
+<script src="${root}static/js/vendor/jquery-2.js"></script>
 <script src="${root}static/js/vendor/bootstrap.bundle.js"></script>
+<script src="${root}static/js/vendor/svg-injector.min.js"></script>
 <link rel="stylesheet" href="${root}static/css/bootstrap.css" />
 <style type="text/css">
 body {
