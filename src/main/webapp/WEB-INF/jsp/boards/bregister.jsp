@@ -107,7 +107,6 @@
 		<div class="row mb-4">
 			<div class="col-8 mx-auto">
 				<div class="btn-group float-right">
-					<button type="reset" class="btn btn-default">리셋</button>
 					<button id="regBtn" type="submit" class="btn btn-primary">글쓰기 완료</button>				
 				</div>
 			</div>

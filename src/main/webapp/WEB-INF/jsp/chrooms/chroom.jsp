@@ -28,37 +28,81 @@
 </head>
 <body>
 	<jsp:include page="/WEB-INF/jsp/template/navbar.jsp"></jsp:include>
-
-	<div class="panel-heading">View Page</div>
-	<div class="panel-body">
-
-		<form action="${'/login'}"></form>
-
-		<div class="form-group">
-			<label>BNO</label>
-			<input class="form-control" name="bno" value="${vo.chrno}" readonly="readonly" />
+	<div class="container-fluid">
+		<div class="row my-4">
+			<div class="col-8 mx-auto">
+				<h1 class="text-center">${vo.title}</h1>
+			</div>
 		</div>
-
-		<div class="form-group">
-			<label>Title</label>
-			<input class="form-control" name="title" value="${vo.title}" readonly="readonly" />
-			<p class="help-block">Title text here.</p>
+		<div class="row my-4">
+			<div class="col-8 mx-auto">
+				<ul class="list-group">
+					<li class="list-group-item">
+						<div class="row align-items-center justify-content-between">
+							<div class="col">
+								<h5 class="text-left">작성자 : ${vo.member.uid}</h5>
+							</div>
+							<div class="col">
+								<fmt:formatDate value="${vo.regdate}" var="formattedDate" type="date" pattern="yyyy-MM-dd"/>
+								<h5 class="text-right">수정 날짜 : ${formattedDate}</h5>	
+							</div>													
+						</div>
+					</li>
+					<li class="list-group-item">
+						 <div class="row my-2">
+						 	<div class="btn-group float-right">
+						        <button id="connect" class="btn btn-primary pull-right mx-2" type="submit">참여하기</button>
+						        <button id="disconnect" class="btn btn-warning pull-right mx-2" type="submit" disabled="disabled">방나가기</button>
+					        </div>					 
+					    </div>
+					    <div class="row">
+					        <div class="col-md-12">
+					        	<div id="conversation">
+					        		<div id="received-message">
+					        		
+					        		</div>					        		
+					        	</div>
+					        
+					        </div>
+					    </div>
+					</li>
+					<li class="list-group-item">
+						<form>
+					    	<div class="form-row align-items-center">
+					    		<div class="input-group">
+					    			<input type="text" id="send-message" class="form-control" placeholder="message here...">
+					    			<button id="send" class="btn btn-primary" type="submit">보내기</button>
+					    		</div>    
+					        </div>					        
+					     </form>
+					</li>
+				</ul>
+			</div>
 		</div>
-
-		<div class="form-group">
-			<label>Writer</label>
-			<!-- 수정이 필요할수도있음 -->
-			<input class="form-control" name="writer" value="${vo.member.uid}" readonly="readonly" />
+		<div class="row my-4">
+			<div class="col-8 mx-auto">
+				<form action="">
+					<input type="hidden" class="form-control" name="chrno" value="${vo.chrno}" readonly="readonly" />
+					<input type="hidden" class="form-control" name="writer" value="${vo.member.uid}" readonly="readonly"/>
+					<input type="hidden" class="form-control" name="title" value="${vo.title}" readonly="readonly" />
+					<fmt:formatDate value="${vo.regdate}" var="formattedDate" type="date" pattern="yyyy-MM-dd"/>
+					<input type="hidden" class="form-control" name="regDate" value="${formattedDate}" readonly="readonly" />
+				</form>
+			</div>
 		</div>
+		<div class="row mb-4">
+			<div class="col-8 mx-auto">
+				<sec:authentication var="principal" property="principal"/>
+				<c:choose>
+					<c:when test="${principal eq 'anonymousUser'}">
+						<c:set var="uid" value=""/>
+					</c:when>
+					<c:otherwise>
+						<c:set var="uid" value="${principal.member.uid}"/>
+					</c:otherwise>
+				</c:choose>
 
-		<div class="form-group">
-			<label>RegDate</label>
-			<fmt:formatDate value="${vo.regdate}" var="formattedDate" type="date" pattern="yyyy-MM-dd"/>
-			<input class="form-control" name="regDate" value="${formattedDate}" readonly="readonly" />
-		</div>
-		<!-- 수정이 필요할수도있음 -->
-		<div class="pull-right">
-			<c:url value="./chmodify" var="url">
+				<c:url value="./chmodify" var="url">
 			  <c:param name="page" value="${pageVO.page}"/>
 			  <c:param name="size" value="${pageVO.size}"/>
 			  <c:param name="keyword" value="${pageVO.keyword}"/>
@@ -70,48 +114,16 @@
 			  <c:param name="keyword" value="${pageVO.keyword}"/>
 			  <c:param name="chrno" value="${vo.chrno}"/>
 			</c:url>
-			<a href="${url}" class="btn btn-default" id='goModBtn'>Modify/Delete</a>
-			<a href="${url2}" class="btn btn-primary">Go List</a>
+				<div class="btn-group float-right">
+					<a href="${url}" class="btn btn-warning pull-right mx-2" id='goModBtn'>수정/삭제</a>
+					<a href="${url2}" class="btn btn-primary pull-right">채팅방 리스트</a>
+				</div>				
+			</div>
 		</div>
-
 	</div>
-	
 	<!--  start chat -->
 	<div id="main-content" class="container">
-    <div class="row">
-        <div class="col-md-6">
-            <form class="form-inline">
-                <div class="form-group">
-                    <label for="connect">채팅 연결</label>
-                    <button id="connect" class="btn btn-default" type="submit">참여하기</button>
-                    <button id="disconnect" class="btn btn-default" type="submit" disabled="disabled">방나가기</button>
-                </div>
-            </form>
-        </div>
-        <div class="col-md-6">
-            <form class="form-inline">
-                <div class="form-group">
-                    <label for="send-message">메시지를 보내세요</label>
-                    <input type="text" id="send-message" class="form-control" placeholder="message here...">
-                </div>
-                <button id="send" class="btn btn-default" type="submit">Send</button>
-            </form>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <table id="conversation" class="table table-striped">
-                <thead>
-                <tr>
-                    <th>uid</th>
-                    <th>message</th>
-                </tr>
-                </thead>
-                <tbody id="received-message">
-                </tbody>
-            </table>
-        </div>
-    </div>
+   
 </div>
 	<c:url value='/' var="url3"/>
 	<script type="text/javascript" src="${url3}static/js/chatapp.js"></script>	

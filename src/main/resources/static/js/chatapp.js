@@ -57,10 +57,26 @@ function sendMessage() {
 }
 
 function showMessage(message) {
-    $("#received-message").append("<tr>");
-    $("#received-message").append("<td>"+ message.uid +"</td>");
-    $("#received-message").append("<td>"+ message.context +"</td>");
-    $("#received-message").append("</tr>")
+	var str = "";
+	if(uid==message.uid){
+		str += "<div class='row justify-content-end'>"
+			+ "<div class='col-sm-4'>"
+			+ "<p class='text-right'>"+message.uid+"</p>"
+			+ "<div class='card rounded-pill'>"
+			+ "<div class='card-body py-3 px-3 bg-primary rounded-pill'>"
+			+ "<p class='card-text text-white'>"+message.context +"</p>"
+			+ "</div>" + "</div>" + "</div>" + "</div>";
+	}else{
+		
+		str += "<div class='row justify-content-start'>"
+			+ "<div class='col-sm-4'>"
+			+ "<p>"+message.uid+"</p>"
+			+ "<div class='card rounded-pill'>"
+			+ "<div class='card-body py-3 px-3 rounded-pill'>"
+			+ "<p class='card-text'>"+message.context +"</p>"
+			+ "</div>" + "</div>" + "</div>" + "</div>";
+	}
+	$("#received-message").append(str);
 }
 
 function chatKeyDownHandler(e){
@@ -78,5 +94,6 @@ $(function () {
     $( "#disconnect" ).click(function() { disconnect(); });
     $( "#send" ).click(function() { sendMessage(); });
     $("#send-message").keydown(chatKeyDownHandler);
+
 });
 

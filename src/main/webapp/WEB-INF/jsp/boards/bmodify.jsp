@@ -27,7 +27,7 @@
 	<div class="container-fluid">
 		<div class="row my-4">
 			<div class="col-8 mx-auto">
-				<h1 class="text-center">${vo.title}</h1>
+				<input class="form-control form-control-lg" name="titleinput" value="${vo.title}"/>
 			</div>
 		</div>
 		<div class="row my-4">
@@ -145,6 +145,8 @@
 	
 		var formObj = $("#f1");
 		var content = $("input[name='content']");
+		var titleinput = $("input[name='titleinput']");
+		var title = $("input[name='title']");
 		
 		$(".delbtn").click(function(){
 			
@@ -152,6 +154,7 @@
 			formObj.attr("method", "post");
 			var text = $(".ql-editor").html();
 			content.val(text);
+			title.val(titleinput.val());
 			formObj.submit();
 			
 		});
@@ -162,7 +165,7 @@
 			formObj.attr("method", "post");
 			var text = $(".ql-editor").html();
 			content.val(text);
-			
+			title.val(titleinput.val());
 			formObj.submit();
 			
 		});
