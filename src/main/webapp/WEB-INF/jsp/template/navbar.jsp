@@ -32,7 +32,7 @@
 				</c:otherwise>
 			</c:choose>
 		</form>
-		<form id="f1" method="post">
+		<form id="logoutform" method="post">
 			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 		</form>
 	</div>
@@ -80,7 +80,7 @@
   $(document).ready(function(){
 		$("#outBtn").click(function(){
 			var url = '<c:out value="${url}signout"/>'
-			var formObj = $("#f1");				
+			var formObj = $("#logoutform");				
 			formObj.attr("action", url);
 			formObj.attr("method", "post");
 			formObj.submit();

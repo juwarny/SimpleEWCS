@@ -18,6 +18,15 @@
 	width:100%;
 	height:100%;
 }
+
+#editor, .ql-editor {
+ height: 100%;
+  width: 100%;
+  border:0px;
+}
+.ql-editor{
+	min-height:500px
+}
 </style>
 <script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
 <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
@@ -45,9 +54,13 @@
 							</div>													
 						</div>
 					</li>
-					<li class="list-group-item">
-						<div class="row align-items-start" style="min-height:500px">
-							<div id="content-con" class="mx-3 my-3">${vo.content}</div>
+					<li class="list-group-item px-0 py-0">
+						<div class="row align-items-start mx-0 px-0 my-0 py-0" style="min-height:500px">
+							<div id="content-con" class="mx-0 px-0 my-0 py-0">
+								<div id="editor">
+									${vo.content}
+								</div>								
+							</div>
 						</div>
 					</li>
 					<li class="list-group-item">
@@ -211,6 +224,14 @@
 	  var unsel = {'color':'grey'};
 
 		inject();
+		
+		var quill = new Quill('#editor', {
+		    theme: 'snow',
+		    modules: {
+		        "toolbar": false
+		    }
+		  });
+		quill.disable();
 	  
 ///////////////////////////////////////////////////////////////////////////likehate
 function inject(){
