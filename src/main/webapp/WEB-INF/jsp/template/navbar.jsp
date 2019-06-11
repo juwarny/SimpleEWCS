@@ -28,13 +28,12 @@
 				</c:when>
 				<c:otherwise>
 					<c:set var="uid" value="${principal.member.uid}" />
-					<a class="btn btn-outline-light my-2 my-sm-0" href='${url}signout'>Log Out</a>
+					<a id="outBtn"class="btn btn-outline-light my-2 my-sm-0" href='#'>Log Out</a>
 				</c:otherwise>
 			</c:choose>
-			
-			<button class="btn my-2 my-sm-0" type="submit">
-				<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-			</button>
+		</form>
+		<form id="f1" method="post">
+			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 		</form>
 	</div>
 </nav>
@@ -79,8 +78,12 @@
 <!-- TradingView Widget END -->
 <script type="text/javascript">
   $(document).ready(function(){
-		$("#login-btn").click(function(){
-			$(location).attr('href', '<c:out value="${url}signin"/>');
+		$("#outBtn").click(function(){
+			var url = '<c:out value="${url}signout"/>'
+			var formObj = $("#f1");				
+			formObj.attr("action", url);
+			formObj.attr("method", "post");
+			formObj.submit();
 		});
 	});
  </script>

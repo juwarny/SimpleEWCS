@@ -77,6 +77,7 @@ function showMessage(message) {
 			+ "</div>" + "</div>" + "</div>" + "</div>";
 	}
 	$("#received-message").append(str);
+	$("#received-message").scrollTop($("#received-message")[0].scrollHeight);
 }
 
 function chatKeyDownHandler(e){

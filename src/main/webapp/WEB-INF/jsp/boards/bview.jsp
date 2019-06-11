@@ -58,7 +58,7 @@
 								<h4></h4>
 							</button>
 							<button class="btn mx-2" id="hate">
-								<img id="hateimg" src="${lhimg}static/img/hate.svg" class="svg-inject" width="2rem" height="2em">
+								<img id="hateimg" src="${lhimg}static/img/hate.svg" class="svg-inject" width="2rem" height="2em" style="transform:rotate(180deg);"/>
 								<h4></h4>
 							</button>
 						</div>
@@ -215,13 +215,15 @@
 ///////////////////////////////////////////////////////////////////////////likehate
 function inject(){
 	  var mySVGsToInject = document.querySelectorAll('.svg-inject');
-	  SVGInjector(mySVGsToInject);	
+	  SVGInjector(mySVGsToInject);
+
 }
 function getCountLikeHate(){
 
-  likehateManager.getAll("5", printCountLH);
+  likehateManager.getAll(bno, printCountLH);
 }
-	  getCountLikeHate();
+
+getCountLikeHate();
 
 function printBtnStyle(){
 	if(loh==-1){
@@ -232,6 +234,7 @@ function printBtnStyle(){
 
 		$("#likeimg").css('fill','grey');
 		$("#hateimg").css('fill','grey');
+		
 	}else if(loh==true){
 		likebtn.css(backgreen);
 		hatebtn.css(unselected);
@@ -267,18 +270,17 @@ function printCountLH(list){
       }else{
         loh = false;
       }
-      lhno = likehateObj.lhno;
-      printBtnStyle();
+      lhno = likehateObj.lhno;      
     }
-  }
+  }  
   liketext.html(like);
   hatetext.html(hate);
+  printBtnStyle();
 }
 
     $("#like").on('click', function(){    	
       if(uid == null){
         if(confirm("로그인 할까요?")){
-        //TODO: 수정이 필요 login 패스 나중에 수정해야됨
           self.location = "../signin"+"?dest=" + encodeURIComponent(self.location);
         }
         return;
@@ -348,7 +350,7 @@ function printCountLH(list){
 
 		  if(uid == null){
 			  if(confirm("로그인 할까요?")){
-				//TODO: 수정이 필요 login 패스 나중에 수정해야됨
+				//login path
 				  self.location = "../signin"+"?dest=" + encodeURIComponent(self.location);
 			  }
 			  return;
@@ -372,7 +374,6 @@ function printCountLH(list){
 
 		  if(uid == null){
 			  if(confirm("로그인 할까요?")){
-				  //self.location = [[@{/login}]];
 				  self.location = $(this).attr("href");
 			  }
 		  }else {
@@ -442,7 +443,7 @@ function printCountLH(list){
 	  $("#modalBtn").click(function(){
 
 		  var replyText =  replyTextObj.val();
-			var replyer = replyerObj.val();
+		var replyer = replyerObj.val();
 				
 
 		  if(mode =='ADD'){
@@ -453,9 +454,6 @@ function printCountLH(list){
 						bno:bno,
 						csrf:csrf
 						};
-
-
-				//console.log(obj);
 
 				replyManager.add(obj, function(list){
 					alert("새로운 댓글이 추가되었습니다. ")
@@ -485,8 +483,6 @@ function printCountLH(list){
 
 
 	  function printList(list){
-
-
 		  var str = "";
 			var replyObj;
 			for(var i = 0; i < list.length; i++){

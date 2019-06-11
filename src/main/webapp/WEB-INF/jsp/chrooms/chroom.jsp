@@ -9,7 +9,6 @@
 <jsp:include page="/WEB-INF/jsp/template/header.jsp"></jsp:include>
 	<c:url var="url" value="/"/>
     <title>Hello WebSocket</title>
-    <link href="${url}static/css/main.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.3.0/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
     <meta name="_csrf" content="${_csrf.token}"/>
@@ -25,6 +24,34 @@
 	</c:choose>
 	<meta name="uid" content="${uid}"/>
 	<meta name="chrno" content="${vo.chrno}"/>
+<style type="text/css">
+#received-message {
+  height:600px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #007bff;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #007bff;
+}
+</style>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/jsp/template/navbar.jsp"></jsp:include>
@@ -44,8 +71,8 @@
 							</div>
 							<div class="col">
 								<fmt:formatDate value="${vo.regdate}" var="formattedDate" type="date" pattern="yyyy-MM-dd"/>
-								<h5 class="text-right">수정 날짜 : ${formattedDate}</h5>	
-							</div>													
+								<h5 class="text-right">수정 날짜 : ${formattedDate}</h5>
+							</div>
 						</div>
 					</li>
 					<li class="list-group-item">
@@ -53,16 +80,16 @@
 						 	<div class="btn-group float-right">
 						        <button id="connect" class="btn btn-primary pull-right mx-2" type="submit">참여하기</button>
 						        <button id="disconnect" class="btn btn-warning pull-right mx-2" type="submit" disabled="disabled">방나가기</button>
-					        </div>					 
+					        </div>
 					    </div>
 					    <div class="row">
-					        <div class="col-md-12">
+					        <div class="col">
 					        	<div id="conversation">
-					        		<div id="received-message">
-					        		
-					        		</div>					        		
+					        		<div id="received-message" class="px-2">
+
+					        		</div>
 					        	</div>
-					        
+
 					        </div>
 					    </div>
 					</li>
@@ -72,8 +99,8 @@
 					    		<div class="input-group">
 					    			<input type="text" id="send-message" class="form-control" placeholder="message here...">
 					    			<button id="send" class="btn btn-primary" type="submit">보내기</button>
-					    		</div>    
-					        </div>					        
+					    		</div>
+					        </div>
 					     </form>
 					</li>
 				</ul>
@@ -117,16 +144,14 @@
 				<div class="btn-group float-right">
 					<a href="${url}" class="btn btn-warning pull-right mx-2" id='goModBtn'>수정/삭제</a>
 					<a href="${url2}" class="btn btn-primary pull-right">채팅방 리스트</a>
-				</div>				
+				</div>
 			</div>
 		</div>
 	</div>
-	<!--  start chat -->
-	<div id="main-content" class="container">
-   
+
 </div>
 	<c:url value='/' var="url3"/>
-	<script type="text/javascript" src="${url3}static/js/chatapp.js"></script>	
+	<script type="text/javascript" src="${url3}static/js/chatapp.js"></script>
 	<jsp:include page="/WEB-INF/jsp/template/footer.jsp"></jsp:include>
 </body>
 </html>
