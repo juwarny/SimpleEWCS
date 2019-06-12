@@ -45,16 +45,16 @@ public class ProfileTests {
 	private StockRepository strepo;
 	
 	
-//	@Test
+	@Test
 //	@Commit
-//	public void testInsertCategory() {
-//		String[] cnamess = {"주식", "채권", "종목분석", "경제현황"};
-//		IntStream.range(0, 4).forEach(i -> {
-//			Category cate = new Category();
-//			cate.setCname(cnamess[i]);
-//			repo.save(cate);
-//		});
-//	}
+	public void testInsertCategory() {
+		String[] cnamess = {"주식", "채권", "종목분석", "경제현황"};
+		IntStream.range(0, 4).forEach(i -> {
+			Category cate = new Category();
+			cate.setCname(cnamess[i]);
+			repo.save(cate);
+		});
+	}
 //	@Test
 //	@Commit
 //	@Transactional

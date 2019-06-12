@@ -106,17 +106,4 @@ public class DailyNewsCrawler {
 			
 		return nextDate;
 	}
-	
-	public static void main(String[] args) throws ParseException {
-		
-		try {
-			DailyNewsCrawler crawler = new DailyNewsCrawler("20190520");
-			crawler.getListOfDailyEconomyNews();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
-	}
 }
