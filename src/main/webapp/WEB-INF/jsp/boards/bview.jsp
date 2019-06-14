@@ -178,7 +178,6 @@
 	</div>
 	<!--  end Modal -->
 
-	<!-- 수정이 필요-->
 	<c:url value='/' var="url3"/>
 	<script type="text/javascript" src="${url3}static/js/reply.js"></script>
 	<script type="text/javascript" src="${url3}static/js/likehate.js"></script>
