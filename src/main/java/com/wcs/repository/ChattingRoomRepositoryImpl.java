@@ -11,13 +11,8 @@ import org.springframework.data.jpa.repository.support.QueryDslRepositorySupport
 
 import com.querydsl.core.Tuple;
 import com.querydsl.jpa.JPQLQuery;
-import com.wcs.domain.Board;
 import com.wcs.domain.ChattingRoom;
-import com.wcs.domain.QBoard;
-import com.wcs.domain.QChatting;
 import com.wcs.domain.QChattingRoom;
-import com.wcs.domain.QMember;
-import com.wcs.domain.QReply;
 
 import lombok.extern.java.Log;
 
@@ -36,21 +31,10 @@ public class ChattingRoomRepositoryImpl extends QueryDslRepositorySupport implem
 		log.info("====================================");
 
 		QChattingRoom chr = QChattingRoom.chattingRoom;
-		QMember m = QMember.member;
-		QChatting ch = QChatting.chatting;
-		
-		/*
-		 * .from(qSampleBO)
-		 * .innerJoin(qEntity1).on(qEntity1.id.eq(qSampleBO.address.id))
-		 * .innerJoin(qEntity2).on(qEntity2.id.eq(qSampleBO.secondary_address.id))
-		 */
 		
 		JPQLQuery<ChattingRoom> query = from(chr);
 		
 		JPQLQuery<Tuple> tuple = query.select(chr.chrno, chr.title, chr.member.uid,  chr.regdate);
-//m.count()
-//		tuple.leftJoin(chr.chats, ch);
-//		tuple.leftJoin(ch.member, m);
 		
 		tuple.where(chr.chrno.gt(0L));
 		
@@ -58,8 +42,6 @@ public class ChattingRoomRepositoryImpl extends QueryDslRepositorySupport implem
 			tuple.where(chr.title.like("%" + keyword +"%"));
 		}
 
-//		tuple.groupBy(chr.chrno);
-//		tuple.orderBy(chr.chrno.desc());
 
 		tuple.offset(page.getOffset());
 		tuple.limit(page.getPageSize());

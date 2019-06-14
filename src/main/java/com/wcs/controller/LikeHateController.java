@@ -24,7 +24,6 @@ import com.wcs.domain.LikeHate;
 import com.wcs.domain.Member;
 import com.wcs.repository.LikeOrHateRepository;
 import com.wcs.vo.LikeHateVO;
-import com.wcs.vo.ReplyVO;
 
 import lombok.extern.java.Log;
 

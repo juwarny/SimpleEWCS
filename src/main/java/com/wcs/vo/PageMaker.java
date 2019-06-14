@@ -8,11 +8,9 @@ import org.springframework.data.domain.Pageable;
 
 import lombok.Getter;
 import lombok.ToString;
-import lombok.extern.java.Log;
 
 @Getter
 @ToString(exclude="pageList")
-@Log
 public class PageMaker<T> {
 
 	private Page<T> result;

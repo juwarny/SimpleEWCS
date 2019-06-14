@@ -1,7 +1,6 @@
 package com.wcs.crawler;
 
 import java.io.IOException;
-import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -14,7 +13,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.springframework.data.repository.NoRepositoryBean;
 
 import com.wcs.domain.DailyNews;
 

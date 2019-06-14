@@ -1,7 +1,5 @@
 package com.wcs.controller;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,9 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.wcs.domain.Board;
 import com.wcs.domain.Category;
-import com.wcs.domain.Member;
 import com.wcs.repository.BoardRepository;
-import com.wcs.repository.BoardRepositoryCustom;
 import com.wcs.repository.CategoryRepository;
 import com.wcs.vo.PageVO;
 import com.wcs.vo.PageMaker;
@@ -58,10 +54,7 @@ public class BoardController {
 		vo.setContent("내용을 처리해 봅니다 " );
 		vo.setCategory(new Category());
 		vo.getCategory().setCno(cno);
-		//TODO: 다시 만들어볼 것
-//		Member member = new Member();
-//		member.setUid("user00");
-//		vo.setMember(member);
+
 	}
 	
 	@PostMapping("/bregister")
@@ -69,7 +62,6 @@ public class BoardController {
 		
 		log.info("register post");
 		log.info("" + vo);
-//		vo.getCategory().setCno(cno);
 		brepo.save(vo);
 		
 		rttr.addFlashAttribute("msg", "success");
