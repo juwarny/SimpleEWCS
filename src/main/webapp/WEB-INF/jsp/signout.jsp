@@ -12,13 +12,10 @@
 	<jsp:include page="/WEB-INF/jsp/template/navbar.jsp"></jsp:include>
 	<div class="panel panel-default">
 		<div class="panel-body">
-
-			<h2>CUSTOM LOGOUT PAGE</h2>
-
 			<form method="post">
 				<h3>Logout</h3>
 				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-				<button type="submit" class="btn">LogOut</button>
+				<button type="submit" class="btn btn-primary">LogOut</button>
 			</form>
 		</div>
 	</div>

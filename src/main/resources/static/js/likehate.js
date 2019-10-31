@@ -1,9 +1,12 @@
 var likehateManager = (function(){
-
+	
+	var root = $("meta[name='root']").attr("content");
+	var likehate = root+"likehate/";
+	
 	var getAll  = function(obj, callback){
 		console.log("get All....");
 
-		$.getJSON('/likehate/'+obj, callback );
+		$.getJSON(likehate+obj, callback );
 	};
 
 	var add = function(obj, callback){
@@ -12,7 +15,7 @@ var likehateManager = (function(){
 
 		$.ajax({
 			type:'post',
-			url: '/likehate/'+ obj.bno,
+			url: likehate+ obj.bno,
 			data:JSON.stringify(obj),
 			dataType:'json',
 			beforeSend : function(xhr){
@@ -28,7 +31,7 @@ var likehateManager = (function(){
 
 		$.ajax({
 			type:'put',
-			url: '/likehate/'+ obj.bno,
+			url: likehate+ obj.bno,
 			dataType:'json',
 			data: JSON.stringify(obj),
 			contentType: "application/json",
@@ -46,7 +49,7 @@ var likehateManager = (function(){
 
 		$.ajax({
 			type:'delete',
-			url: '/likehate/'+ obj.bno+"/" + obj.lhno,
+			url: likehate+ obj.bno+"/" + obj.lhno,
 			dataType:'json',
 			beforeSend : function(xhr){
 		       xhr.setRequestHeader(obj.csrf.headerName, obj.csrf.token);

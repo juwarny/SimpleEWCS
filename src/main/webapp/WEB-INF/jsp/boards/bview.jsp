@@ -9,99 +9,146 @@
 <jsp:include page="/WEB-INF/jsp/template/header.jsp"></jsp:include>
 <meta name="_csrf" content="${_csrf.token}"/>
 <meta name="_csrf_header" content="${_csrf.headerName}"/>
+<style type="text/css">
+.svg-inject{
+	width: 2em;
+	height: 2em;
+}
+#content-con{
+	width:100%;
+	height:100%;
+}
+
+#editor, .ql-editor {
+ height: 100%;
+  width: 100%;
+  border:0px;
+}
+.ql-editor{
+	min-height:500px
+}
+</style>
+<script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
+<link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<link href="//cdn.quilljs.com/1.3.6/quill.bubble.css" rel="stylesheet">
 </head>
 <body>
 	<jsp:include page="/WEB-INF/jsp/template/navbar.jsp"></jsp:include>
-
-	<div class="panel-heading">View Page</div>
-	<div class="panel-body">
-
-		<form action="${'/login'}"></form>
-
-		<div class="form-group">
-			<label>BNO</label>
-			<input class="form-control" name="bno" value="${vo.bno}" readonly="readonly" />
+	<div class="container-fluid">
+		<div class="row my-4">
+			<div class="col-8 mx-auto">
+				<h1 class="text-center">${vo.title}</h1>
+			</div>
 		</div>
-
-		<div class="form-group">
-			<label>Title</label>
-			<input class="form-control" name="title" value="${vo.title}" readonly="readonly" />
-			<p class="help-block">Title text here.</p>
+		<div class="row my-4">
+			<div class="col-8 mx-auto">
+				<ul class="list-group">
+					<li class="list-group-item">
+						<div class="row align-items-center justify-content-between">
+							<div class="col">
+								<h5 class="text-left">작성자 : ${vo.member.uid}</h5>
+							</div>
+							<div class="col">
+								<fmt:formatDate value="${vo.regdate}" var="formattedDate" type="date" pattern="yyyy-MM-dd"/>
+								<h5 class="text-right">수정 날짜 : ${formattedDate}</h5>	
+							</div>													
+						</div>
+					</li>
+					<li class="list-group-item px-0 py-0">
+						<div class="row align-items-start mx-0 px-0 my-0 py-0" style="min-height:500px">
+							<div id="content-con" class="mx-0 px-0 my-0 py-0">
+								<div id="editor">
+									${vo.content}
+								</div>								
+							</div>
+						</div>
+					</li>
+					<li class="list-group-item">
+						<div class="row align-items-center justify-content-center">
+							<c:url value="/" var="lhimg"/>														
+							<button class="btn mx-2" id="like">
+								<img id="likeimg" src="${lhimg}static/img/like.svg" class="svg-inject" width="2rem" height="2em" />
+								<h4></h4>
+							</button>
+							<button class="btn mx-2" id="hate">
+								<img id="hateimg" src="${lhimg}static/img/hate.svg" class="svg-inject" width="2rem" height="2em" style="transform:rotate(180deg);"/>
+								<h4></h4>
+							</button>
+						</div>
+					</li>
+				</ul>
+			</div>
 		</div>
-
-		<div class="form-group">
-			<label>Content</label>
-			<textarea class="form-control" rows="3" name='content' readonly="readonly">${vo.content}</textarea>
+		<div class="row my-4">
+			<div class="col-8 mx-auto">
+				<form action="">
+					<input type="hidden" class="form-control" name="bno" value="${vo.bno}" readonly="readonly" />
+					<input type="hidden" class="form-control" name="writer" value="${vo.member.uid}" readonly="readonly"/>
+					<input type="hidden" class="form-control" name="title" value="${vo.title}" readonly="readonly" />
+					<fmt:formatDate value="${vo.regdate}" var="formattedDate" type="date" pattern="yyyy-MM-dd"/>
+					<input type="hidden" class="form-control" name="regDate" value="${formattedDate}" readonly="readonly" />
+					<input type="hidden" class="form-control" name='content' value='${vo.content}' readonly="readonly"/>										
+				</form>
+			</div>
 		</div>
+		<div class="row mb-4">
+			<div class="col-8 mx-auto">
+				<sec:authentication var="principal" property="principal"/>
+				<c:choose>
+					<c:when test="${principal eq 'anonymousUser'}">
+						<c:set var="uid" value=""/>
+					</c:when>
+					<c:otherwise>
+						<c:set var="uid" value="${principal.member.uid}"/>
+					</c:otherwise>
+				</c:choose>
 
-		<div class="form-group">
-			<label>Writer</label>
-			<!-- 수정이 필요할수도있음 -->
-			<input class="form-control" name="writer" value="${vo.member.uid}" readonly="readonly" />
+				<c:url value="./bmodify" var="url">
+				  <c:param name="page" value="${pageVO.page}"/>
+				  <c:param name="size" value="${pageVO.size}"/>
+				  <c:param name="type" value="${pageVO.type}"/>
+				  <c:param name="keyword" value="${pageVO.keyword}"/>
+				  <c:param name="bno" value="${vo.bno}"/>
+				  <c:param name="cno" value="${pageVO.cno}"/>
+				</c:url>
+				<c:url value="./blist" var="url2">
+				  <c:param name="page" value="${pageVO.page}"/>
+				  <c:param name="size" value="${pageVO.size}"/>
+				  <c:param name="type" value="${pageVO.type}"/>
+				  <c:param name="keyword" value="${pageVO.keyword}"/>
+				  <c:param name="bno" value="${vo.bno}"/>
+				  <c:param name="cno" value="${pageVO.cno}"/>
+				</c:url>
+				<div class="btn-group float-right">
+					<a href="${url}" class="btn btn-warning pull-right mx-2" id='goModBtn'>수정/삭제</a>
+					<a href="${url2}" class="btn btn-primary pull-right">게시판</a>
+				</div>				
+			</div>
 		</div>
-
-		<div class="form-group">
-			<label>RegDate</label>
-			<fmt:formatDate value="${vo.regdate}" var="formattedDate" type="date" pattern="yyyy-MM-dd"/>
-			<input class="form-control" name="regDate" value="${formattedDate}" readonly="readonly" />
+		<div class="row my-4">
+			<div class="col-8 mx-auto">
+				<ul class="list-group">
+					<li class="list-group-item">
+						<div class="row align-items-center justify-content-between">
+							<div class="col">
+								<h5>댓글</h5>
+							</div>
+							<div class="col">
+								<div class="btn-group float-right">
+									<button class='btn btn-primary ' id='addReplyBtn'>댓글 쓰기</button>
+								</div>
+							</div>
+						</div>
+					</li>
+					<li class="list-group-item px-0 py-0">
+						<table class="table">			
+							<tbody id="replyTable">
+							</tbody>
+						</table>
+					</li>
+				</ul>
+			</div>
 		</div>
-		<!-- 수정이 필요할수도있음 -->
-		<div class="pull-right">
-			<sec:authentication var="principal" property="principal"/>
-			<c:choose>
-				<c:when test="${principal eq 'anonymousUser'}">
-					<c:set var="uid" value=""/>
-				</c:when>
-				<c:otherwise>
-					<c:set var="uid" value="${principal.member.uid}"/>
-				</c:otherwise>
-			</c:choose>
-
-			<c:url value="./bmodify" var="url">
-			  <c:param name="page" value="${pageVO.page}"/>
-			  <c:param name="size" value="${pageVO.size}"/>
-			  <c:param name="type" value="${pageVO.type}"/>
-			  <c:param name="keyword" value="${pageVO.keyword}"/>
-			  <c:param name="bno" value="${vo.bno}"/>
-			  <c:param name="cno" value="${pageVO.cno}"/>
-			</c:url>
-			<c:url value="./blist" var="url2">
-			  <c:param name="page" value="${pageVO.page}"/>
-			  <c:param name="size" value="${pageVO.size}"/>
-			  <c:param name="type" value="${pageVO.type}"/>
-			  <c:param name="keyword" value="${pageVO.keyword}"/>
-			  <c:param name="bno" value="${vo.bno}"/>
-			  <c:param name="cno" value="${pageVO.cno}"/>
-			</c:url>
-
-			<a href="${url}" class="btn btn-default" id='goModBtn'>Modify/Delete</a>
-			<a href="${url2}" class="btn btn-primary">Go List</a>
-		</div>
-
-	</div>
-	<div class="container">
-		<label>like</label><button class="btn" id="like"></button>
-		<label>hate</label><button class="btn" id="hate"></button>
-	</div>
-
-	<div class='container'>
-		<table class="table table-striped table-bordered table-hover">
-			<thead>
-				<tr>
-					<th>RNO</th>
-					<th>REPLY TEXT</th>
-					<th>REPLER</th>
-					<th>REPLY DATE</th>
-				</tr>
-			</thead>
-			<tbody id="replyTable">
-			</tbody>
-		</table>
-
-		<div class='pull-right'>
-			<button class='btn ' id='addReplyBtn'>Add Reply</button>
-		</div>
-
 	</div>
 
 	<!-- Modal -->
@@ -115,15 +162,15 @@
 					<h4 class="modal-title">Modal Header</h4>
 				</div>
 				<div class="modal-body">
-					<label>Reply Text</label>
+					<label>댓글</label>
 					<input type="text" class="form-control" name='replyText'>
-					<label>Replyer</label>
+					<label>작성자</label>
 					<input type="text" class="form-control" name='replyer' readonly="readonly">
 				</div>
 				<div class="modal-footer">
-					<button id='delModalBtn' class="btn btn-danger">Delete</button>
-					<button id='modalBtn' class="btn btn-info">Save</button>
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button id='delModalBtn' class="btn btn-danger">삭제</button>
+					<button id='modalBtn' class="btn btn-info">저장</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
 				</div>
 			</div>
 
@@ -131,7 +178,6 @@
 	</div>
 	<!--  end Modal -->
 
-	<!-- 수정이 필요-->
 	<c:url value='/' var="url3"/>
 	<script type="text/javascript" src="${url3}static/js/reply.js"></script>
 	<script type="text/javascript" src="${url3}static/js/likehate.js"></script>
@@ -139,7 +185,7 @@
 
 	$(document).ready(function (e){
 
-		var mode;
+	  var mode;
 
 	  var bno = "<c:out value='${vo.bno}'/>";
 
@@ -148,28 +194,85 @@
 
 	  var rno;
 
-    var lhno;
-    var loh = -1;
-
-	  //TODO: 수정이 필요
-
+      var lhno;
+      var loh = -1;
+    
+    
 	  var uid ="<c:out value='${uid}'/>";
 
-
-	  //var csrf = JSON.parse("<c:out value='${_csrf}'/>");
 	  var token = $("meta[name='_csrf']").attr("content");
       var headerName = $("meta[name='_csrf_header']").attr("content");
 	  var csrf = {token: token, headerName: headerName};
 	  
-	  $("#like").css('background-color', 'grey');
-	  $("#hate").css('background-color', 'grey');
+	 
+	  
+	  var likebtn = $("#like");
+	  var hatebtn = $("#hate");
+	
+	  var liketext = $("#like h4");
+	  var hatetext = $("#hate h4");
+	  
+	  var unselicon = {'fill':'grey'};
+	  var selicon = {'fill':'snow'};
+	  
+	  var unselected = {"border": "1px solid", "background-color": 'snow', "border-color":'grey'};
+	  var backgreen = {'background-color':'SpringGreen', 'border':'0px'};
+	  var backred = {'background-color':'OrangeRed', 'border':'0px'};
+	  
+	  var sel = {'color':'snow'};
+	  var unsel = {'color':'grey'};
+
+		inject();
+		
+		var quill = new Quill('#editor', {
+		    theme: 'snow',
+		    modules: {
+		        "toolbar": false
+		    }
+		  });
+		quill.disable();
+	  
 ///////////////////////////////////////////////////////////////////////////likehate
+function inject(){
+	  var mySVGsToInject = document.querySelectorAll('.svg-inject');
+	  SVGInjector(mySVGsToInject);
+
+}
 function getCountLikeHate(){
 
-  likehateManager.getAll("<c:out value='${vo.bno}'/>", printCountLH);
+  likehateManager.getAll(bno, printCountLH);
 }
-	  getCountLikeHate();
 
+getCountLikeHate();
+
+function printBtnStyle(){
+	if(loh==-1){
+		likebtn.css(unselected);
+		hatebtn.css(unselected);
+		liketext.css(unsel);
+		hatetext.css(unsel);
+
+		$("#likeimg").css('fill','grey');
+		$("#hateimg").css('fill','grey');
+		
+	}else if(loh==true){
+		likebtn.css(backgreen);
+		hatebtn.css(unselected);
+		liketext.css(sel);
+		hatetext.css(unsel);
+	
+		$("#likeimg").css('fill','snow');
+		$("#hateimg").css('fill','grey');
+	}else{
+		likebtn.css(unselected);
+		hatebtn.css(backred);
+		liketext.css(unsel);
+		hatetext.css(sel);
+
+		$("#likeimg").css('fill','grey');
+		$("#hateimg").css('fill','snow');
+	}
+}
 function printCountLH(list){
   var likehateObj;
   var like = 0;
@@ -183,24 +286,22 @@ function printCountLH(list){
     }
     if(uid==likehateObj.uid){
       if(likehateObj.loh==true){
-        $("#like").css('background-color', 'green')
         loh = true;
       }else{
-        $("#hate").css('background-color', 'red')
         loh = false;
       }
-      lhno = likehateObj.lhno;
+      lhno = likehateObj.lhno;      
     }
-  }
-  $("#like").html(like);
-  $("#hate").html(hate);
+  }  
+  liketext.html(like);
+  hatetext.html(hate);
+  printBtnStyle();
 }
 
-    $("#like").on('click', function(){
+    $("#like").on('click', function(){    	
       if(uid == null){
         if(confirm("로그인 할까요?")){
-        //TODO: 수정이 필요 login 패스 나중에 수정해야됨
-          self.location = "../login"+"?dest=" + encodeURIComponent(self.location);
+          self.location = "../signin"+"?dest=" + encodeURIComponent(self.location);
         }
         return;
       }
@@ -209,8 +310,7 @@ function printCountLH(list){
         var obj = {loh:loh, bno:bno, lhno:lhno, csrf:csrf, uid:uid};
         likehateManager.add(obj, function(list){
           alert("좋아요 생성되었습니다.")
-          afterLHAll(list);
-          $("#like").css('background-color', 'green');
+          printCountLH(list);          
         });
 
       }else if(loh==false){//업뎃
@@ -218,9 +318,7 @@ function printCountLH(list){
         var obj = {loh:loh, bno:bno, lhno:lhno, csrf:csrf, uid:uid};
         likehateManager.update(obj, function(list){
           alert("좋아요가 수정되었습니다. ")
-          afterLHAll(list);
-          $("#like").css('background-color', 'green');
-          $("#hate").css('background-color', 'grey');
+          printCountLH(list);
         });
 
       }else{//삭제
@@ -228,9 +326,9 @@ function printCountLH(list){
         var obj = {bno:bno, lhno:lhno, csrf:csrf};
         likehateManager.remove(obj, function(list){
           alert("좋아요가 삭제되었습니다. ")
-          afterLHAll(list);
-          $("#like").css('background-color', 'grey');
-        });
+          printCountLH(list);
+        }    
+        );
       }
     });
 
@@ -238,7 +336,7 @@ function printCountLH(list){
       if(uid == null){
         if(confirm("로그인 할까요?")){
         //TODO: 수정이 필요 login 패스 나중에 수정해야됨
-          self.location = "../login"+"?dest=" + encodeURIComponent(self.location);
+          self.location = "../signin"+"?dest=" + encodeURIComponent(self.location);
         }
         return;
       }
@@ -247,8 +345,7 @@ function printCountLH(list){
         var obj = {loh:loh, bno:bno, lhno:lhno, csrf:csrf, uid:uid};
         likehateManager.add(obj, function(list){
           alert("싫어요 생성되었습니다.")
-          afterLHAll(list);
-          $("#hate").css('background-color', 'red');
+          printCountLH(list);
         });
 
       }else if(loh==true){//업뎃
@@ -256,9 +353,7 @@ function printCountLH(list){
         var obj = {loh:loh, bno:bno, lhno:lhno, csrf:csrf, uid:uid};
         likehateManager.update(obj, function(list){
           alert("싫어요가 수정되었습니다. ")
-          afterLHAll(list);
-          $("#hate").css('background-color', 'red');
-          $("#like").css('background-color', 'grey');
+          printCountLH(list);
         });
 
       }else{//삭제
@@ -266,22 +361,17 @@ function printCountLH(list){
         var obj = {bno:bno, lhno:lhno, csrf:csrf};
         likehateManager.remove(obj, function(list){
           alert("싫어요가 삭제되었습니다. ")
-          afterLHAll(list);
-          $("#hate").css('background-color', 'grey');
+          printCountLH(list);
         });
       }
     });
-
-    function afterLHAll(list){
-		  printCountLH(list);
-	  }
 //////////////////////////////////////////////////////////////////////////reply
 	  $("#addReplyBtn").on('click', function(e){
 
 		  if(uid == null){
 			  if(confirm("로그인 할까요?")){
-				//TODO: 수정이 필요 login 패스 나중에 수정해야됨
-				  self.location = "../login"+"?dest=" + encodeURIComponent(self.location);
+				//login path
+				  self.location = "../signin"+"?dest=" + encodeURIComponent(self.location);
 			  }
 			  return;
 		  }
@@ -289,7 +379,7 @@ function printCountLH(list){
 		  replyerObj.val(uid);
 
 		  $("#myModal").modal("show");
-		  $(".modal-title").text("Add Reply");
+		  $(".modal-title").text("댓글 쓰기");
 
 		  $("#delModalBtn").hide();
 
@@ -304,7 +394,6 @@ function printCountLH(list){
 
 		  if(uid == null){
 			  if(confirm("로그인 할까요?")){
-				  //self.location = [[@{/login}]];
 				  self.location = $(this).attr("href");
 			  }
 		  }else {
@@ -341,19 +430,19 @@ function printCountLH(list){
 		  rno = tds[0].innerHTML;
 		  mode ='MOD';
 
-		  replyTextObj.val(tds[1].innerHTML);
-		  replyerObj.val(tds[2].innerHTML);
+		  replyTextObj.val(tds[2].innerHTML);
+		  replyerObj.val(tds[1].innerHTML);
 		  $("#delModalBtn").show();
 		  $("#myModal").modal("show");
-		  $(".modal-title").text("Modiy/Delete Reply");
+		  $(".modal-title").text("댓글 편집하기");
 
 		  console.log("==================");
 		  console.log(uid);
-		  console.log(tds[2].innerHTML);
+		  console.log(tds[1].innerHTML);
 
-		  console.log(uid == tds[2].innerHTML);
+		  console.log(uid == tds[1].innerHTML);
 
-		  if(uid != tds[2].innerHTML.trim() ){
+		  if(uid != tds[1].innerHTML.trim() ){
 
 			  $("#delModalBtn").hide();
 			  $("#modalBtn").hide();
@@ -374,7 +463,7 @@ function printCountLH(list){
 	  $("#modalBtn").click(function(){
 
 		  var replyText =  replyTextObj.val();
-			var replyer = replyerObj.val();
+		var replyer = replyerObj.val();
 				
 
 		  if(mode =='ADD'){
@@ -385,9 +474,6 @@ function printCountLH(list){
 						bno:bno,
 						csrf:csrf
 						};
-
-
-				//console.log(obj);
 
 				replyManager.add(obj, function(list){
 					alert("새로운 댓글이 추가되었습니다. ")
@@ -401,7 +487,7 @@ function printCountLH(list){
 
 			  replyManager.update(obj, function(list){
 
-					alert("댓글이 수정되었습니다. ")
+					alert("댓글이 수정되었습니다. ");
 					afterAll(list);
 			  });
 
@@ -417,18 +503,16 @@ function printCountLH(list){
 
 
 	  function printList(list){
-
-
 		  var str = "";
 			var replyObj;
 			for(var i = 0; i < list.length; i++){
 				replyObj = list[i];
 
 				str += "<tr>" +
-				"<td>"+ replyObj.rno+" </td>" +
+				"<td style='display:none;'>"+ replyObj.rno+" </td>" +				
+				"<td class='text-left'>"+ replyObj.replyer+" </td>" +
 				"<td>"+ replyObj.replyText+" </td>" +
-				"<td>"+ replyObj.replyer+" </td>" +
-				"<td>"+ formatDate(replyObj.regdate)+" </td>" +
+				"<td class='text-right'>"+ formatDate(replyObj.regdate)+" </td>" +
 				"</tr>";
 			}
 			$("#replyTable").html(str);

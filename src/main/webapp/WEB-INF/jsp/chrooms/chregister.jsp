@@ -10,25 +10,60 @@
 </head>
 <body>
 	<jsp:include page="/WEB-INF/jsp/template/navbar.jsp"></jsp:include>
-	<div class="panel-heading">Register Page</div>
-	<div class="panel-body">
-		<form action="./chregister" method="post">
-			<div class="form-group">
-				<label>Title</label> 
-				<input class="form-control" name="title" value="${vo.title}" />
-				<p class="help-block">Title text here.</p>
-			</div>			
-			<sec:authentication var="principal" property="principal"/>
-			<c:set var="member" value="${principal.member}"/>
-			<div class="form-group">
-				<label>Writer</label>
-				<input class="form-control" name="member.uid" value="${member.uid}" readonly="readonly"/>
+	<sec:authentication var="principal" property="principal" />
+	<c:set var="member" value="${principal.member}"/>
+	<div class="container-fluid">
+		<div class="row my-4">
+			<div class="col-8 mx-auto">
+				<input class="form-control form-control-lg" name="titleinput" value="${vo.title}"/>
 			</div>
-			<button type="submit" class="btn btn-default">Submit Button</button>
-			<button type="reset" class="btn btn-primary">Reset Button</button>
-			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-		</form>
-	</div>	
+		</div>
+		<div class="row my-4">
+			<div class="col-8 mx-auto">
+				<ul class="list-group">
+					<li class="list-group-item">
+						<div class="row align-items-center justify-content-between">
+							<div class="col">
+								<h5 class="text-left">작성자 : ${member.uid}</h5>
+							</div>
+							<div class="col">
+							</div>
+						</div>
+					</li>					
+				</ul>
+			</div>
+		</div>
+		<div class="row my-4">
+			<div class="col-8 mx-auto">
+			<form id='f1' action="./chregister" method="post">				
+				<input type="hidden" class="form-control" name="member.uid"	value="${member.uid}" readonly="readonly" />
+				<input type="hidden" class="form-control" name="title" value="${vo.title}" readonly="readonly"/>
+				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+				</form>
+			</div>
+		</div>
+		<div class="row mb-4">
+			<div class="col-8 mx-auto">
+				<div class="btn-group float-right">
+					<button id="regBtn" type="submit" class="btn btn-primary">글쓰기 완료</button>				
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+	$(document).ready(function(){
+
+		var formObj = $("#f1");
+		var titleinput = $("input[name='titleinput']");
+		var title = $("input[name='title']");
+		
+		$("#regBtn").click(function(){			
+			title.val(titleinput.val());
+			formObj.submit();
+
+		});
+	});
+	</script>	
 	<jsp:include page="/WEB-INF/jsp/template/footer.jsp"></jsp:include>
 </body>
 </html>

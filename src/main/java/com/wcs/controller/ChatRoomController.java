@@ -1,8 +1,5 @@
 package com.wcs.controller;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -19,14 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.wcs.domain.Board;
-import com.wcs.domain.Category;
 import com.wcs.domain.ChattingRoom;
-import com.wcs.domain.Member;
-import com.wcs.repository.BoardRepository;
-import com.wcs.repository.BoardRepositoryCustom;
-import com.wcs.repository.CategoryRepository;
-import com.wcs.repository.ChattingRepository;
 import com.wcs.repository.ChattingRoomRepository;
 import com.wcs.vo.ChPageVO;
 import com.wcs.vo.PageMaker;
@@ -38,10 +28,6 @@ import lombok.extern.java.Log;
 @Log
 public class ChatRoomController {
 
-	
-	@Autowired
-	private ChattingRepository crepo;
-	
 	@Autowired
 	private ChattingRoomRepository chrepo;
 	

@@ -3,8 +3,9 @@ var stompClient = null;
 
 var uid = $("meta[name='uid']").attr("content");
 var chrno = $("meta[name='chrno']").attr("content");
+var root = $("meta[name='root']").attr("content");
 
-const SERVER_SOCKET_API = "/wcs-real-chatting";
+const SERVER_SOCKET_API = root+"wcs-real-chatting";
 const DESTINATION_PREFIXS = "/chatapp";
 const BROKER = "/realtime";
 const MAPPING_NAME = "/chat";
@@ -56,10 +57,27 @@ function sendMessage() {
 }
 
 function showMessage(message) {
-    $("#received-message").append("<tr>");
-    $("#received-message").append("<td>"+ message.uid +"</td>");
-    $("#received-message").append("<td>"+ message.context +"</td>");
-    $("#received-message").append("</tr>")
+	var str = "";
+	if(uid==message.uid){
+		str += "<div class='row justify-content-end'>"
+			+ "<div class='col-sm-4'>"
+			+ "<p class='text-right'>"+message.uid+"</p>"
+			+ "<div class='card rounded-pill'>"
+			+ "<div class='card-body py-3 px-3 bg-primary rounded-pill'>"
+			+ "<p class='card-text text-white'>"+message.context +"</p>"
+			+ "</div>" + "</div>" + "</div>" + "</div>";
+	}else{
+		
+		str += "<div class='row justify-content-start'>"
+			+ "<div class='col-sm-4'>"
+			+ "<p>"+message.uid+"</p>"
+			+ "<div class='card rounded-pill'>"
+			+ "<div class='card-body py-3 px-3 rounded-pill'>"
+			+ "<p class='card-text'>"+message.context +"</p>"
+			+ "</div>" + "</div>" + "</div>" + "</div>";
+	}
+	$("#received-message").append(str);
+	$("#received-message").scrollTop($("#received-message")[0].scrollHeight);
 }
 
 function chatKeyDownHandler(e){
@@ -77,5 +95,6 @@ $(function () {
     $( "#disconnect" ).click(function() { disconnect(); });
     $( "#send" ).click(function() { sendMessage(); });
     $("#send-message").keydown(chatKeyDownHandler);
+
 });
 

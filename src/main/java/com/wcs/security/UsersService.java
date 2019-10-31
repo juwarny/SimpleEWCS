@@ -9,10 +9,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import com.wcs.repository.MemberRepository;
 
-import lombok.extern.java.Log;
 
 @Service
-@Log
 public class UsersService implements UserDetailsService {
 
 	@Autowired

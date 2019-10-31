@@ -5,10 +5,8 @@ import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
-import com.wcs.domain.Board;
 import com.wcs.domain.Chatting;
 import com.wcs.domain.ChattingRoom;
-import com.wcs.domain.Reply;
 
 
 public interface ChattingRepository extends CrudRepository<Chatting, Long> {

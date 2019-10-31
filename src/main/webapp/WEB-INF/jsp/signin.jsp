@@ -10,7 +10,6 @@
 </head>
 <body>
 	<jsp:include page="/WEB-INF/jsp/template/navbar.jsp"></jsp:include>
-	<div class="panel-heading">Login Page</div>
 	<div class="panel-body">
 		
 		<c:if test="${not empty param.error}">
@@ -20,30 +19,49 @@
 		<c:if test="${not empty param.logout}">
 			<h2>You have been logged out.</h2>
 		</c:if>
-
-		<div class='container'>
-			<form method="post">
-				<p>
-					<label for="username">Username</label> 
-					<input type="text" id="username" name="username" value="user88" />
-				</p>
-				<p>
-					<label for="password">Password</label> 
-					<input type="password" id="password" name="password" value="pw88" />
-				</p>
-
-				<p>
-					<label for="text">Remember-Me</label> 
-					<input type="checkbox" id="remember-me" name="remember-me" />
-				</p>
-
-				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-				<button type="submit" class="btn">Log in</button>
-			</form>
-
-		</div>
-
 	</div>
+	<div class="container py-5">
+    <div class="row">
+        <div class="col-md-12">            
+            <div class="row">
+                <div class="col-md-6 mx-auto">
+                    <!-- form card login -->
+                    <div class="card rounded-0">
+                        <div class= "mx-auto" style="margin:1em;">                        	
+                        		<img id="login-logo" src="${url}static/img/logo-wcs.svg" width="200" height="200" alt="WCS">
+                        </div>
+                        <div class="card-body">
+                            <form class="form" role="form" autocomplete="off" id="formLogin" novalidate="" method="POST">
+                                <div class="form-group">
+                                    <label>아이디</label>
+                                    <input type="text" class="form-control form-control-lg rounded-0" id="username" name="username" required="">
+                                </div>
+                                <div class="form-group">
+                                    <label>비밀번호</label>
+                                    <input type="password" class="form-control form-control-lg rounded-0" id="password" name="password" required="" autocomplete="new-password">
+                                </div>
+                                
+                                <div class="checkbox mb-3">
+									<label> <input type="checkbox" id="remember-me" name="remember-me">Remember me</label>
+								</div>                                
+                                <button class="btn btn-lg btn-primary btn-block" type="submit">로그인</button>
+                                <p><h5 class="text-center">OR</h5></p>
+                                <a class="btn btn-lg btn-info btn-block" href="./member/signup">회원가입</a>
+                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                            </form>
+                        </div>
+                        <!--/card-block-->
+                    </div>
+                    <!-- /form card login -->
+                </div>
+            </div>
+            <!--/row-->
+        </div>
+        <!--/col-->
+    </div>
+    <!--/row-->
+</div>
+<!--/container-->
 	<jsp:include page="/WEB-INF/jsp/template/footer.jsp"></jsp:include>
 </body>
 </html>

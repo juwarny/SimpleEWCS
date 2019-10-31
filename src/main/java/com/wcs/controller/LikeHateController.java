@@ -24,7 +24,6 @@ import com.wcs.domain.LikeHate;
 import com.wcs.domain.Member;
 import com.wcs.repository.LikeOrHateRepository;
 import com.wcs.vo.LikeHateVO;
-import com.wcs.vo.ReplyVO;
 
 import lombok.extern.java.Log;
 
@@ -38,7 +37,7 @@ public class LikeHateController {
 	
 	
 	@GetMapping("/{bno}")
-	public ResponseEntity<List<LikeHateVO>> getReplies(
+	public ResponseEntity<List<LikeHateVO>> getLikeHate(
 			@PathVariable("bno")Long bno){
 	
 		log.info("get All Replies..........................");

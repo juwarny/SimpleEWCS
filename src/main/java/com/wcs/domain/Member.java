@@ -70,4 +70,8 @@ public class Member {
   
   @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
   private List<DailyNews> dailynews;
+  
+  @JsonIgnore
+  @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+  private List<UpDown> updowns;
 }

@@ -1,9 +1,12 @@
 var replyManager = (function(){
 	
+	var root = $("meta[name='root']").attr("content");
+	var replies = root+"replies/";
+	
 	var getAll  = function(obj, callback){
 		console.log("get All....");
 		
-		$.getJSON('/replies/'+obj,callback );
+		$.getJSON(replies+obj,callback );
 		
 		
 		
@@ -15,7 +18,7 @@ var replyManager = (function(){
 		
 		$.ajax({
 			type:'post',
-			url: '/replies/'+ obj.bno,
+			url: replies+ obj.bno,
 			data:JSON.stringify(obj), 
 			dataType:'json',
 			beforeSend : function(xhr){
@@ -31,7 +34,7 @@ var replyManager = (function(){
 		
 		$.ajax({
 			type:'put',
-			url: '/replies/'+ obj.bno,
+			url: replies+ obj.bno,
 			dataType:'json',
 			data: JSON.stringify(obj),
 			contentType: "application/json",
@@ -49,7 +52,7 @@ var replyManager = (function(){
 		
 		$.ajax({
 			type:'delete',
-			url: '/replies/'+ obj.bno+"/" + obj.rno,
+			url: replies+ obj.bno+"/" + obj.rno,
 			dataType:'json',
 			beforeSend : function(xhr){
 		       xhr.setRequestHeader(obj.csrf.headerName, obj.csrf.token);
